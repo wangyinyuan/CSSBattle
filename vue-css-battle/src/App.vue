@@ -1,14 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+</script>
 
 <template>
-  <div class="test"></div>
+  <RouterView />
 </template>
 
-<style lang="scss" scoped>
-.test {
-  background-color: $theme-dark-background;
-  width: 200px;
-  height: 200px;
-  border: 10px solid #a29ffa;
-}
-</style>
+<style lang="scss" scoped></style>

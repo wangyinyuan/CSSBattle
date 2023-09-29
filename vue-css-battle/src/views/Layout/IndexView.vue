@@ -2,6 +2,10 @@
 
 <template>
   <div class="test"></div>
+  <RouterLink to="/">去Home</RouterLink>
+  <RouterLink to="/daily">去Daily </RouterLink>
+  <RouterLink to="/battles"> 去Battles</RouterLink>
+  <RouterView />
 </template>
 
 <style lang="scss" scoped>
