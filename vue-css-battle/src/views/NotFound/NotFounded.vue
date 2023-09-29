@@ -1,4 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router'
+
+//返回首页
+const onGoHome = () => {
+  router.push('/')
+}
+//返回上一页
+const onBack = () => {
+  router.go(-1)
+}
+</script>
 
 <template>
   <div class="content">
@@ -9,8 +20,8 @@
         you've reached the edge of universe.The Page you've requested , can't befound. Don't Worry ,
         you can return to previous page.
       </p>
-      <button class="go-home btn">GO HOME</button>
-      <button class="back btn">BACK</button>
+      <button class="go-home btn" @click="onGoHome">GO HOME</button>
+      <button class="back btn" @click="onBack">BACK</button>
     </div>
     <div class="astronaut">
       <img src="../../assets/images/astronaut.png" class="astronaut-img" alt="" />
@@ -140,5 +151,9 @@
   100% {
     transform: rotate(10deg) translate(0, -18%);
   }
+}
+
+.dark-theme {
+  background-color: var(--background);
 }
 </style>

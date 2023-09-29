@@ -37,7 +37,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const pageTitle = to.meta.title
+  const pageTitle = to.meta.title as string
   if (pageTitle) {
     document.title = pageTitle
   } else {

@@ -1,7 +1,9 @@
 /* 亮色主题 */
-$theme-light-background: #ffffff;
-$theme-light-text: #333333;
+$light-background: rgb(255,255,255);
+$light-text: rgb(5, 5, 5);
+$light-header-button-bg: #cbd1d8;
 
 /* 暗色主题 */
-$theme-dark-background: #333333;
-$theme-dark-text: #ffffff;
+$dark-background: rgb(24,29,35);
+$dark-text: rgb(255, 255, 255);
+$dark-header-button-bg: #323f4a;

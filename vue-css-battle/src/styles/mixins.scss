@@ -1,0 +1,38 @@
+/* 主题色 */
+@mixin bg-color($color) {
+    background-color: $color;
+    [data-theme='dark'] & {
+      background-color: $dark-background;
+    }
+    [data-theme='light'] & {
+      background-color: $light-background;
+    }
+  }
+  
+  @mixin text-color($color) {
+    color: $color;
+    [data-theme='dark'] & {
+      color: $dark-text;
+    }
+    [data-theme='light'] & {
+      color: $light-text;
+    }
+  }
+
+  @mixin header-button-bg {
+    [data-theme='dark'] & {
+      background-color: $dark-header-button-bg;
+    }
+    [data-theme='light'] & {
+      background-color: $light-header-button-bg;
+    }
+  }
+  
+@mixin header-button-bg-hover {
+    [data-theme='dark'] & {
+      background-color: lighten($dark-header-button-bg, 5%);
+    }
+    [data-theme='light'] & {
+      background-color: darken($light-header-button-bg, 5%);
+    }
+  }
