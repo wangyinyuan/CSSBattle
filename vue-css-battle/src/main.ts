@@ -1,10 +1,12 @@
-import './assets/main.css'
+//导入全局样式
+import '@/styles/common.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import router from '@/router'
 
 import App from './App.vue'
-import router from './router'
+
 //导入element-plus组件
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
