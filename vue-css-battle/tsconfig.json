@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "isolatedModules": true,
+    "types": ["element-plus/global"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["node_modules/*"],
+      "@/*": ["*"]
+    }
+  },
+  "files": [],
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}
