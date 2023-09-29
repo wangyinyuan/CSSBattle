@@ -2,6 +2,7 @@ import Battles from '@/views/Battles/BattlesView.vue'
 import Daily from '@/views/DailyTargets/DailyTargets.vue'
 import Home from '@/views/Home/HomeView.vue'
 import Layout from '@/views/Layout/IndexView.vue'
+import NotFound from '@/views/NotFound/NotFounded.vue'
 import { createRouter } from 'vue-router'
 import { createWebHistory } from 'vue-router'
 
@@ -26,12 +27,23 @@ const routes = [
         meta: { title: 'Battles | CSSBattle' }
       }
     ]
-  }
+  },
+  { path: '/:pathMatch(.*)*', component: NotFound, meta: { title: '404 NotFounded' } }
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const pageTitle = to.meta.title
+  if (pageTitle) {
+    document.title = pageTitle
+  } else {
+    document.title = 'CSSBattle'
+  }
+  next()
 })
 
 export default router

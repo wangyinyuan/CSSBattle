@@ -5,6 +5,7 @@
   <RouterLink to="/">去Home</RouterLink>
   <RouterLink to="/daily">去Daily </RouterLink>
   <RouterLink to="/battles"> 去Battles</RouterLink>
+  <RouterLink to="/battle/1">去404</RouterLink>
   <RouterView />
 </template>
 
