@@ -6,13 +6,21 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-  ],
+  plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        //自动导入scss文件
+        additionalData: `
+        @use "@/styles/element/index.scss" as *;
+        @use "@/styles/var.scss" as *;
+      `
+      }
     }
   }
 })
