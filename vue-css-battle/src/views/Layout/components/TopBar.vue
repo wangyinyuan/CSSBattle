@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useThemeStore } from '@/stores/themeStore'
+import { onMounted } from 'vue'
+
+const themeStore = useThemeStore()
+
+const onSwitchTheme = () => {
+  themeStore.toggleTheme()
+}
+
+onMounted(() => {
+  //加载主题
+  themeStore.setThemeOnRoot(themeStore.theme)
+})
+</script>
 
 <template>
   <div class="container">
@@ -7,10 +21,10 @@
       <div class="right-header">
         <div class="header-live-counter">
           <div class="blink"></div>
-          <span class="online-number"></span>
+          <span class="online-number">200</span>
           Online
         </div>
-        <button class="switch-theme button">
+        <button class="switch-theme button" @click="onSwitchTheme">
           <svg
             width="24"
             height="24"
@@ -39,7 +53,7 @@
 .container {
   .v2-header {
     height: 60px;
-    width: 87%;
+    width: 100%;
     [data-theme='dark'] & {
       background: linear-gradient(90deg, $dark-background 50%, transparent);
     }
@@ -49,8 +63,9 @@
     position: fixed;
     top: 0;
     right: 0;
+    left: 17rem;
     backdrop-filter: blur(20px);
-    padding: 0.7rem 1rem;
+    padding: 0.7rem calc(18rem) 0.7rem 1rem;
     display: flex;
     justify-content: space-between;
     z-index: 10;
@@ -94,6 +109,45 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .header-live-counter {
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        @include header-text;
+        .blink {
+          width: 0.6rem;
+          height: 0.6rem;
+          border-radius: 100%;
+          @include header-blink;
+          position: relative;
+          margin-right: 0.5rem;
+          animation: blink 2s infinite ease-in-out;
+        }
+
+        @keyframes blink {
+          0% {
+            box-shadow: 0 0 0 0 rgba(158, 139, 15, 0.4);
+            transform: scale(1);
+          }
+          50% {
+            box-shadow: 0 0 0 0.4rem rgba(158, 139, 15, 0.4);
+            transform: scale(1.3);
+          }
+          65% {
+            box-shadow: 0 0 0 0.4rem rgba(223, 196, 18, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(223, 196, 18, 0);
+          }
+        }
+        .online-number {
+          margin: 0 0.25rem;
+          @include header-number;
+        }
       }
     }
   }

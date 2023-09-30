@@ -36,3 +36,98 @@
       background-color: darken($light-header-button-bg, 5%);
     }
   }
+
+@mixin header-text {
+    [data-theme='dark'] & {
+      color: $dark-header-text;
+    }
+    [data-theme='light'] & {
+      color: $light-header-text;
+    }
+  }
+
+  @mixin header-number {
+    [data-theme='dark'] & {
+      color: $dark-header-number;
+    }
+    [data-theme='light'] & {
+      color: $light-header-number;
+    }
+  }
+
+  @mixin header-blink {
+    [data-theme='dark'] & {
+      background-color: $dark-header-blink;
+    }
+    [data-theme='light'] & {
+      background-color: $light-header-blink;
+    }
+  }
+
+  @mixin sidebar-bg {
+    [data-theme='dark'] & {
+      background: linear-gradient(175deg, rgb(29,35,43) 0, rgb(24,29,35) 85%); 
+    }
+    [data-theme='light'] & {
+      background: linear-gradient(175deg, rgb(243,246,250) 0, rgb(255,255,255) 85%);
+    }
+  }
+
+  @mixin sidebar-text {
+    [data-theme='dark'] & {
+      color: $dark-sidebar-text;
+    }
+    [data-theme='light'] & {
+      color: $light-sidebar-text;
+    }
+  }
+
+  @mixin sidebar-play {
+    [data-theme='dark'] & {
+      background-color: $dark-sidebar-play-bg;
+      color: $dark-sidebar-play-text;
+
+    }
+    [data-theme='light'] & {
+      background-color: $light-sidebar-play-bg;
+      color: $light-sidebar-play-text;
+    }
+  }
+
+  @mixin sidebar-selected {
+    [data-theme='dark'] & {
+     background: linear-gradient(95.67deg, rgb(53,63,73) 0, transparent 92.54%);
+    }
+    [data-theme='light'] & {
+     background: linear-gradient(95.67deg, rgb(217,222,227) 0, transparent 92.54%);
+
+    }
+  }
+
+  @mixin body-bg {
+    [data-theme='dark'] & {
+      background-color: $dark-body-bg;
+    }
+    [data-theme='light'] & {
+      background-color: $light-body-bg;
+    }
+  }
+
+  @mixin footer-bg {
+    [data-theme='dark'] & {
+      background-color: $dark-footer-bg;
+    }
+    [data-theme='light'] & {
+      background-color: $light-footer-bg;
+    }
+  }
+
+  @mixin footer-left-text {
+    [data-theme='dark'] & {
+      color: $dark-sidebar-play-text;
+
+    }
+    [data-theme='light'] & {
+      color: $light-sidebar-play-text;
+    }
+  }
