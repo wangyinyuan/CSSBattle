@@ -36,3 +36,30 @@
       background-color: darken($light-header-button-bg, 5%);
     }
   }
+
+@mixin header-text {
+    [data-theme='dark'] & {
+      color: $dark-header-text;
+    }
+    [data-theme='light'] & {
+      color: $light-header-text;
+    }
+  }
+
+  @mixin header-number {
+    [data-theme='dark'] & {
+      color: $dark-header-number;
+    }
+    [data-theme='light'] & {
+      color: $light-header-number;
+    }
+  }
+
+  @mixin header-blink {
+    [data-theme='dark'] & {
+      background-color: $dark-header-blink;
+    }
+    [data-theme='light'] & {
+      background-color: $light-header-blink;
+    }
+  }
