@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useThemeStore } from '@/stores/themeStore'
+import { onMounted } from 'vue'
+
+const themeStore = useThemeStore()
+
+const onSwitchTheme = () => {
+  themeStore.toggleTheme()
+}
+
+onMounted(() => {
+  //加载主题
+  themeStore.setThemeOnRoot(themeStore.theme)
+})
+</script>
 
 <template>
   <div class="container">
@@ -10,7 +24,7 @@
           <span class="online-number">200</span>
           Online
         </div>
-        <button class="switch-theme button">
+        <button class="switch-theme button" @click="onSwitchTheme">
           <svg
             width="24"
             height="24"
