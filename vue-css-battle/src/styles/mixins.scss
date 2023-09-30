@@ -103,3 +103,31 @@
 
     }
   }
+
+  @mixin body-bg {
+    [data-theme='dark'] & {
+      background-color: $dark-body-bg;
+    }
+    [data-theme='light'] & {
+      background-color: $light-body-bg;
+    }
+  }
+
+  @mixin footer-bg {
+    [data-theme='dark'] & {
+      background-color: $dark-footer-bg;
+    }
+    [data-theme='light'] & {
+      background-color: $light-footer-bg;
+    }
+  }
+
+  @mixin footer-left-text {
+    [data-theme='dark'] & {
+      color: $dark-sidebar-play-text;
+
+    }
+    [data-theme='light'] & {
+      color: $light-sidebar-play-text;
+    }
+  }

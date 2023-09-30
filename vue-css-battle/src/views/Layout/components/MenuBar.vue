@@ -116,6 +116,7 @@
   border-radius: 32px 0 0 32px;
   box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
   @include sidebar-selected;
+  @include text-color($dark-text);
 }
 .sidebar-container {
   display: flex;
