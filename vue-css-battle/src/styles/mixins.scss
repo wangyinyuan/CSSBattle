@@ -173,3 +173,32 @@
       background-color: rgba(228, 214, 214, 0.892);
     }
   }
+  @mixin daily-icon-bg {
+    [data-theme='dark'] & {
+      background-color: rgb(33, 38, 46);
+    }
+    [data-theme='light'] & {
+      background-color: rgb(224, 228, 232);
+    }
+  }
+  @mixin target-panel-bg {
+    [data-theme='dark'] & {
+      background: linear-gradient(94.5deg,rgba(29,35,43,.75) 0.19%,rgba(24,29,35,.563));
+    }
+    [data-theme='light'] & {
+      background: linear-gradient(
+        94.5deg,
+        rgba(255, 255, 255, 0.75) 0.19%,
+        rgba(245, 245, 245, 0.5625) 100%
+      );
+    }
+  }
+
+  @mixin target-panel-box-shadow {
+    [data-theme='dark'] & {
+      box-shadow: 0 0 30px rgba(var(--rgb-brand),0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1);
+    }
+    [data-theme='light'] & {
+      box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
+    }
+  }

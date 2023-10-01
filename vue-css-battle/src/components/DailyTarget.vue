@@ -85,6 +85,11 @@ onUnmounted(() => {
 @import '../styles/mixins.scss';
 
 .target-container {
+  transition: transform 0.2s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
   @include target-bg;
   @include target-text;
   padding: 1rem;
