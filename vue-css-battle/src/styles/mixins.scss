@@ -131,3 +131,74 @@
       color: $light-sidebar-play-text;
     }
   }
+
+  @mixin target-bg-trans {
+    [data-theme='dark'] & {
+      background: transparent;
+    }
+    [data-theme='light'] & {
+      background: transparent;
+    }
+  }
+  @mixin target-bg {
+    [data-theme='dark'] & {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    [data-theme='light'] & {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  @mixin target-text {
+    [data-theme='dark'] & {
+      color: $dark-target-text;
+    }
+    [data-theme='light'] & {
+      color: $light-text;
+    }
+  }
+  @mixin target-border-trans {
+    [data-theme='dark'] & {
+      border: 2px solid $dark-target-border;
+    }
+    [data-theme='light'] & {
+      border: 2px solid $light-target-border;
+    }
+  } 
+
+  @mixin count-down-bg {
+    [data-theme='dark'] & {
+      background-color: rgb(40, 45, 52);
+    }
+    [data-theme='light'] & {
+      background-color: rgba(228, 214, 214, 0.892);
+    }
+  }
+  @mixin daily-icon-bg {
+    [data-theme='dark'] & {
+      background-color: rgb(33, 38, 46);
+    }
+    [data-theme='light'] & {
+      background-color: rgb(224, 228, 232);
+    }
+  }
+  @mixin target-panel-bg {
+    [data-theme='dark'] & {
+      background: linear-gradient(94.5deg,rgba(29,35,43,.75) 0.19%,rgba(24,29,35,.563));
+    }
+    [data-theme='light'] & {
+      background: linear-gradient(
+        94.5deg,
+        rgba(255, 255, 255, 0.75) 0.19%,
+        rgba(245, 245, 245, 0.5625) 100%
+      );
+    }
+  }
+
+  @mixin target-panel-box-shadow {
+    [data-theme='dark'] & {
+      box-shadow: 0 0 30px rgba(var(--rgb-brand),0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1);
+    }
+    [data-theme='light'] & {
+      box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
+    }
+  }

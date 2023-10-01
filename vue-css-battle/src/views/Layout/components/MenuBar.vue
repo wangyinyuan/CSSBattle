@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+enum Selection {
+  Home,
+  Daily,
+  Battles,
+  Leaderboards,
+  Learn
+}
+const selectedItem = ref<Selection>(Selection.Home)
+</script>
 
 <template>
   <div class="sidebar-container">
@@ -8,7 +18,11 @@
     <div class="menu-container">
       <div class="menu">
         <RouterLink to="/" class="custom-link"
-          ><div class="home selected">
+          ><div
+            class="home"
+            :class="{ selected: selectedItem === Selection.Home }"
+            @click="selectedItem = Selection.Home"
+          >
             <svg
               width="18"
               height="18"
@@ -26,7 +40,11 @@
         >
         <div class="selection-header">PLAY</div>
         <RouterLink class="custom-link" to="/daily"
-          ><div class="daily">
+          ><div
+            class="daily"
+            :class="{ selected: selectedItem === Selection.Daily }"
+            @click="selectedItem = Selection.Daily"
+          >
             <svg
               width="18"
               height="18"
@@ -43,7 +61,11 @@
           </div></RouterLink
         >
         <RouterLink class="custom-link" to="/battles"
-          ><div class="battles">
+          ><div
+            class="battles"
+            :class="{ selected: selectedItem === Selection.Battles }"
+            @click="selectedItem = Selection.Battles"
+          >
             <svg
               width="18"
               height="18"
@@ -59,7 +81,11 @@
             ><span>Battles</span>
           </div></RouterLink
         >
-        <div class="leader">
+        <div
+          class="leader"
+          :class="{ selected: selectedItem === Selection.Leaderboards }"
+          @click="selectedItem = Selection.Leaderboards"
+        >
           <svg
             width="18"
             height="18"
@@ -74,7 +100,11 @@
             ></path></svg
           ><span>Leaderboards</span>
         </div>
-        <div class="learn">
+        <div
+          class="learn"
+          :class="{ selected: selectedItem === Selection.Learn }"
+          @click="selectedItem = Selection.Learn"
+        >
           <svg
             width="18"
             height="18"
