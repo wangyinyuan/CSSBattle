@@ -1,4 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import DailyTarget from '@/components/DailyTarget.vue'
+import { ref } from 'vue'
+import type { TargetProps } from '@/types/target'
+
+const targetLock = ref<TargetProps>({
+  month: 'JAN',
+  day: '01',
+  highestScore: 'Not Played',
+  isLocked: true
+})
+</script>
 
 <template>
   <div class="home-view">
@@ -14,7 +25,9 @@
       </article>
     </div>
     <div class="separator"></div>
-    <div class="daily-targets"></div>
+    <div class="daily-targets">
+      <DailyTarget v-bind="targetLock" />
+    </div>
     <div class="scrollbar"></div>
   </div>
 </template>
