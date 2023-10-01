@@ -7,7 +7,8 @@ const targetLock = ref<TargetProps>({
   month: 'JAN',
   day: '01',
   highestScore: 'Not Played',
-  isLocked: true
+  isLocked: true,
+  isTransparent: true
 })
 </script>
 

@@ -131,3 +131,45 @@
       color: $light-sidebar-play-text;
     }
   }
+
+  @mixin target-bg-trans {
+    [data-theme='dark'] & {
+      background: transparent;
+    }
+    [data-theme='light'] & {
+      background: transparent;
+    }
+  }
+  @mixin target-bg {
+    [data-theme='dark'] & {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    [data-theme='light'] & {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  @mixin target-text {
+    [data-theme='dark'] & {
+      color: $dark-target-text;
+    }
+    [data-theme='light'] & {
+      color: $light-text;
+    }
+  }
+  @mixin target-border-trans {
+    [data-theme='dark'] & {
+      border: 2px solid $dark-target-border;
+    }
+    [data-theme='light'] & {
+      border: 2px solid $light-target-border;
+    }
+  } 
+
+  @mixin count-down-bg {
+    [data-theme='dark'] & {
+      background-color: rgb(40, 45, 52);
+    }
+    [data-theme='light'] & {
+      background-color: rgba(228, 214, 214, 0.892);
+    }
+  }

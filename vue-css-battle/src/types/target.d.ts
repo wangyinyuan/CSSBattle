@@ -9,6 +9,7 @@ export type TargetProps = {
   isShowDate?: boolean
   isToday?: boolean
   highestScore?: string
+  isTransparent?: boolean
   month?: string
   day?: string
 }
