@@ -7,9 +7,12 @@ const secondsCurrent = ref('00')
 const hoursNext = ref('00')
 const minutesNext = ref('00')
 const secondsNext = ref('00')
-const hoursChanged = ref(false)
-const minutesChanged = ref(false)
-const secondsChanged = ref(false)
+const hours1Changed = ref(false)
+const minutes1Changed = ref(false)
+const seconds1Changed = ref(false)
+const hours2Changed = ref(false)
+const minutes2Changed = ref(false)
+const seconds2Changed = ref(false)
 let interval: number
 
 const updateTime = () => {
@@ -25,15 +28,23 @@ const updateTime = () => {
   minutesNext.value = String(minutes).padStart(2, '0')
   secondsNext.value = String(seconds).padStart(2, '0')
 
-  hoursChanged.value = hoursCurrent.value !== hoursNext.value
-  minutesChanged.value = minutesCurrent.value !== minutesNext.value
-  secondsChanged.value = secondsCurrent.value !== secondsNext.value
+  hours1Changed.value = hoursCurrent.value[0] !== hoursNext.value[0]
+  hours2Changed.value = hoursCurrent.value[1] !== hoursNext.value[1]
+
+  minutes1Changed.value = minutesCurrent.value[0] !== minutesNext.value[0]
+  minutes2Changed.value = minutesCurrent.value[1] !== minutesNext.value[1]
+
+  seconds1Changed.value = secondsCurrent.value[0] !== secondsNext.value[0]
+  seconds2Changed.value = secondsCurrent.value[1] !== secondsNext.value[1]
 
   //设置延迟，等待动画结束
   setTimeout(() => {
     hoursCurrent.value = hoursNext.value
     minutesCurrent.value = minutesNext.value
     secondsCurrent.value = secondsNext.value
+    //这个地方改了超级久才发现
+    seconds1Changed.value = false
+    seconds2Changed.value = false
   }, 500)
 }
 
@@ -50,35 +61,35 @@ onBeforeUnmount(() => {
 <template>
   <div class="hstack">
     <div class="time-group">
-      <div class="count" :class="{ changing: hoursChanged }">
+      <div class="count" :class="{ changing: hours1Changed }">
         <span class="current top">{{ hoursCurrent[0] }}</span>
-        <span class="next top" v-if="hoursChanged">{{ hoursNext[0] }}</span>
+        <span class="next top" v-show="hours1Changed">{{ hoursNext[0] }}</span>
       </div>
-      <div class="count" :class="{ changing: hoursChanged }">
+      <div class="count" :class="{ changing: hours2Changed }">
         <span class="current top">{{ hoursCurrent[1] }}</span>
-        <span class="next top" v-if="hoursChanged">{{ hoursNext[1] }}</span>
+        <span class="next top" v-show="hours2Changed">{{ hoursNext[1] }}</span>
       </div>
     </div>
     <div class="countdown__separator">:</div>
     <div class="time-group">
-      <div class="count" :class="{ changing: minutesChanged }">
+      <div class="count" :class="{ changing: minutes1Changed }">
         <span class="current top">{{ minutesCurrent[0] }}</span>
-        <span class="next top" v-if="minutesChanged">{{ minutesNext[0] }}</span>
+        <span class="next top" v-show="minutes1Changed">{{ minutesNext[0] }}</span>
       </div>
-      <div class="count" :class="{ changing: minutesChanged }">
+      <div class="count" :class="{ changing: minutes2Changed }">
         <span class="current top">{{ minutesCurrent[1] }}</span>
-        <span class="next top" v-if="minutesChanged">{{ minutesNext[1] }}</span>
+        <span class="next top" v-show="minutes2Changed">{{ minutesNext[1] }}</span>
       </div>
     </div>
     <div class="countdown__separator">:</div>
     <div class="time-group">
-      <div class="count" :class="{ changing: secondsChanged }">
+      <div class="count" :class="{ changing: seconds1Changed }">
         <span class="current top">{{ secondsCurrent[0] }}</span>
-        <span class="next top" v-if="secondsChanged">{{ secondsNext[0] }}</span>
+        <span class="next top" v-show="seconds1Changed">{{ secondsNext[0] }}</span>
       </div>
-      <div class="count" :class="{ changing: secondsChanged }">
+      <div class="count" :class="{ changing: seconds2Changed }">
         <span class="current top">{{ secondsCurrent[1] }}</span>
-        <span class="next top" v-if="secondsChanged">{{ secondsNext[1] }}</span>
+        <span class="next top" v-show="seconds2Changed">{{ secondsNext[1] }}</span>
       </div>
     </div>
   </div>
