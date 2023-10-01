@@ -59,6 +59,7 @@ onMounted(() => {
     </div>
     <div v-else class="count-down-view">
       <p>Unlocks in</p>
+      <div class="count-down"></div>
     </div>
   </div>
 </template>
