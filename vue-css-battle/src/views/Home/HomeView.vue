@@ -1,17 +1,29 @@
 <script setup lang="ts">
 import DailyTarget from '@/components/DailyTarget.vue'
-import { ref } from 'vue'
-import type { TargetProps } from '@/types/target'
+import { targetListHomePanel } from '@/data/targets'
 import { useThemeStore } from '@/stores/themeStore'
+import { nextTick, onMounted, ref } from 'vue'
+import ScrollBar from './components/ScrollBar.vue'
 
 const themeStore = useThemeStore()
 
-const targetLock = ref<TargetProps>({
-  month: 'JAN',
-  day: '01',
-  highestScore: 'Not Played',
-  isLocked: true,
-  isTransparent: true
+//居中Today Target在屏幕中间
+const scrollView = ref<HTMLElement | null>(null)
+
+const centerTodayView = () => {
+  nextTick(() => {
+    const items = scrollView.value!.children
+    const todayView = items[items.length - 2] as HTMLElement
+    if (todayView) {
+      const scrollLeftPosition =
+        todayView.offsetLeft - scrollView.value!.offsetWidth / 2 + todayView.offsetWidth / 2
+      scrollView.value!.scrollLeft = scrollLeftPosition
+    }
+  })
+}
+
+onMounted(() => {
+  centerTodayView()
 })
 </script>
 
@@ -55,13 +67,19 @@ const targetLock = ref<TargetProps>({
             <p>A new target everyday for you to unwind. No leaderboards, no competition</p>
           </div>
         </div>
-        <button>View all daily targets</button>
+        <RouterLink to="/daily" class="custom-link"
+          ><button>View all daily targets</button></RouterLink
+        >
       </div>
       <div class="home-daily-panel">
-        <div class="targets"><DailyTarget v-bind="targetLock" /></div>
+        <div class="targets" ref="scrollView">
+          <DailyTarget v-bind="item" v-for="item in targetListHomePanel" :key="item.id" />
+        </div>
       </div>
     </div>
-    <div class="scrollbar"></div>
+    <div class="scrollbar">
+      <ScrollBar />
+    </div>
   </div>
 </template>
 
@@ -136,6 +154,7 @@ const targetLock = ref<TargetProps>({
       }
     }
   }
+  /* targets 容器 */
   .daily-targets {
     display: flex;
     flex-direction: column;
@@ -150,6 +169,7 @@ const targetLock = ref<TargetProps>({
       backdrop-filter: blur(20px);
       overflow: hidden;
       .targets {
+        width: 100%;
         padding: 3rem;
         min-height: 450px;
         overflow-x: auto;
@@ -157,10 +177,13 @@ const targetLock = ref<TargetProps>({
         gap: 2rem;
         justify-content: flex-start;
         align-items: flex-start;
+        &:last-child {
+          padding-right: 40%;
+        }
       }
     }
   }
-
+  /* targets 信息展示和按钮 */
   .daily-hstack {
     display: flex;
     flex-direction: row;
@@ -219,5 +242,9 @@ const targetLock = ref<TargetProps>({
       width: 13rem;
     }
   }
+}
+
+.scrollbar {
+  margin-bottom: 3rem;
 }
 </style>

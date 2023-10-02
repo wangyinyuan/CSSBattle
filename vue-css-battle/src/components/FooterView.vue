@@ -69,6 +69,7 @@
   display: flex;
   gap: 4rem;
   align-items: center;
+  justify-content: space-between;
   font-size: 1.2rem;
   font-weight: 500;
   padding: 0.8rem 1.2rem;
@@ -79,7 +80,7 @@
   .links {
     display: flex;
     width: auto;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     .link {
       display: inline-block;
