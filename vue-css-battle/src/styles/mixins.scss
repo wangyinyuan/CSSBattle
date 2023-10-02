@@ -202,3 +202,39 @@
       box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
     }
   }
+  
+  @mixin target-border-today {
+    [data-theme='dark'] & {
+      border: 3px solid #ffdf00;
+    }
+    [data-theme='light'] & {
+      border: 3px solid #976e06;
+    }
+  }
+
+  @mixin target-text-today {
+    [data-theme='dark'] & {
+      color: #ffdf00;
+    }
+    [data-theme='light'] & {
+      color: #976e06;
+    }
+  }
+
+  @mixin target-border-shadow {
+    [data-theme='dark'] & {
+      box-shadow: 0 8px 36px rgba(0,0,0,.1),0 24px 74px rgba(0,0,0,.15),inset 1px 1px 3px hsla(0,0%,100%,.1);
+    }
+    [data-theme='light'] & {
+      box-shadow: 0px 0 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @mixin target-bg-large {
+    [data-theme='dark'] & {
+      background: linear-gradient(95.41deg,rgba(45,55,64,0.5) 0,rgba(39,45,52,0.5) 101.76%);
+    }
+    [data-theme='light'] & {
+      background: linear-gradient(95.41deg,rgba(255,255,255,1) 0,rgba(245,245,245,1) 101.76%);
+    }
+  }

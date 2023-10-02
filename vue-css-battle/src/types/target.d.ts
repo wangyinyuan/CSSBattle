@@ -3,7 +3,6 @@
  */
 export type TargetProps = {
   image?: string
-  isAvailable?: boolean
   isLocked?: boolean
   isPlus?: boolean
   isShowDate?: boolean
@@ -12,4 +11,5 @@ export type TargetProps = {
   isTransparent?: boolean
   month?: string
   day?: string
+  id?: string
 }
