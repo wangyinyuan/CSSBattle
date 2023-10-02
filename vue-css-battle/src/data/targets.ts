@@ -194,7 +194,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '30',
     image:
@@ -207,7 +207,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '29',
     image:
@@ -220,7 +220,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '28',
     image:
@@ -233,7 +233,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '27',
     image:
@@ -246,7 +246,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '26',
     image:
@@ -259,7 +259,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '25',
     image:
@@ -272,7 +272,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '24',
     image: ''
@@ -284,7 +284,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '23',
     image:
