@@ -2,6 +2,7 @@
 import CountDown from '@/components/CountDown.vue'
 import type { TargetProps } from '@/types/target'
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const targetInfo = defineProps<TargetProps>()
 
@@ -15,7 +16,19 @@ const getRandom = (min: number, max: number): number => {
 const updateFreqY = () => {
   baseFreqY.value = getRandom(0.0, 0.1)
 }
+//设置路由导航
+const router = useRouter()
 
+const onTargetClick = () => {
+  if (!targetInfo.isLocked) {
+    router.push({
+      name: 'play',
+      query: {
+        data: JSON.stringify(targetInfo)
+      }
+    })
+  }
+}
 onMounted(() => {
   //更新滤镜参数
   updateFreqYId = setInterval(() => {
@@ -33,6 +46,7 @@ onUnmounted(() => {
   <div
     class="target-container"
     :class="{ trans: targetInfo.isTransparent, today: targetInfo.isToday }"
+    @click="onTargetClick"
   >
     <div :class="{ 'tv-glitch': targetInfo.isLocked }" class="target-body">
       <svg v-if="targetInfo.isLocked">
@@ -244,6 +258,7 @@ onUnmounted(() => {
     filter: url(#noise);
     opacity: 0.6;
     width: 100%;
+    margin: 0 !important;
   }
   .lock-icon {
     position: absolute;

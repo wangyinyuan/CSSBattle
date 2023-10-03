@@ -275,7 +275,8 @@ export const targetListDaily: TargetProps[] = [
     isTransparent: false,
     month: 'SEP',
     day: '24',
-    image: ''
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/cssbattleapp.appspot.com/o/user%2Fummd3POvEDfFyeFvVdOMG3OOrwE2%2Ftargets%2Ftarget_T7arYiU.png?alt=media'
   },
   {
     id: '15',

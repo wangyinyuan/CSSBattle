@@ -28,7 +28,18 @@ const routes = [
       }
     ]
   },
-  { path: '/:pathMatch(.*)*', component: NotFound, meta: { title: '404 NotFounded' } }
+  {
+    path: '/play',
+    component: () => import('@/views/Play/PlayView.vue'),
+    meta: { title: 'Play | CSSBattle' },
+    name: 'play'
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFound,
+    meta: { title: '404 NotFounded' },
+    name: 'not-found'
+  }
 ]
 
 const router = createRouter({

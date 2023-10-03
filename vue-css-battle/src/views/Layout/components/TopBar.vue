@@ -1,11 +1,80 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/themeStore'
-import { onMounted } from 'vue'
+import { onMounted, computed, ref } from 'vue'
+import { TargetProps } from '@/types/target'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const themeStore = useThemeStore()
+//左侧按钮是否存在
+const props = withDefaults(defineProps<TargetProps>(), {
+  id: ''
+})
 
+const isLeftButtonExist = computed(() => {
+  return props.id !== ''
+})
+//判断是否变宽
+const isWider = computed(() => {
+  return props.id !== ''
+})
+//转化月份格式
+const monthMap: { [key: string]: string } = {
+  JAN: '01',
+  FEB: '02',
+  MAR: '03',
+  APR: '04',
+  MAY: '05',
+  JUN: '06',
+  JUL: '07',
+  AUG: '08',
+  SEP: '09',
+  OCT: '10',
+  NOV: '11',
+  DEC: '12'
+}
+//类型
+type MonthAbbreviation =
+  | 'JAN'
+  | 'FEB'
+  | 'MAR'
+  | 'APR'
+  | 'MAY'
+  | 'JUN'
+  | 'JUL'
+  | 'AUG'
+  | 'SEP'
+  | 'OCT'
+  | 'NOV'
+  | 'DEC'
+
+const convertMonth = (month: MonthAbbreviation) => {
+  return monthMap[month] || ''
+}
+
+const month = computed(() => {
+  return convertMonth(props.month as MonthAbbreviation)
+})
+
+//改变主题
 const onSwitchTheme = () => {
   themeStore.toggleTheme()
+}
+//去daily target 页面
+const onGoToDailyTarget = () => {
+  router.push({ path: '/daily' })
+}
+//控制菜单栏模态窗口
+const emits = defineEmits(['openMenu', 'closeMenu'])
+const isMenuOpen = ref(false)
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+  if (isMenuOpen.value) {
+    emits('openMenu')
+  } else {
+    emits('closeMenu')
+  }
+  isMenuOpen.value = false
 }
 
 onMounted(() => {
@@ -16,8 +85,47 @@ onMounted(() => {
 
 <template>
   <div class="container">
-    <header class="v2-header">
-      <div class="left-header"></div>
+    <header class="v2-header" :class="{ wider: isWider }">
+      <div class="left-header">
+        <div class="button-logo" v-if="isLeftButtonExist">
+          <button @click="toggleMenu">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="undefined"
+              xmlns="http://www.w3.org/2000/svg"
+              style="vertical-align: middle; margin-right: 0px; margin-left: 0px"
+            >
+              <path
+                d="M4.25537 9.03516C3.72412 9.03516 3.30078 8.57861 3.30078 8.06396C3.30078 7.54102 3.72412 7.08447 4.25537 7.08447H19.7446C20.2759 7.08447 20.6992 7.52441 20.6992 8.06396C20.6992 8.58691 20.2759 9.03516 19.7446 9.03516H4.25537ZM4.25537 12.9863C3.72412 12.9863 3.30078 12.5298 3.30078 12.0151C3.30078 11.4839 3.72412 11.0356 4.25537 11.0356H19.7446C20.2759 11.0356 20.6992 11.4756 20.6992 12.0151C20.6992 12.5381 20.2759 12.9863 19.7446 12.9863H4.25537ZM4.25537 16.9458C3.72412 16.9458 3.30078 16.481 3.30078 15.9663C3.30078 15.4434 3.72412 14.9951 4.25537 14.9951H19.7446C20.2759 14.9951 20.6992 15.4268 20.6992 15.9663C20.6992 16.4893 20.2759 16.9458 19.7446 16.9458H4.25537Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </button>
+          <img src="https://cssbattle.dev/images/logo-new.svg" alt="logo" />
+        </div>
+        <div class="daily-target-date" v-if="isLeftButtonExist">
+          <div class="hstack" @click="onGoToDailyTarget">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="#6b7b8e"
+              color="#6b7b8e"
+              xmlns="http://www.w3.org/2000/svg"
+              style="color: #6b7b8e; vertical-align: middle; margin-right: 0px; margin-left: 0px"
+            >
+              <path
+                fill="currentColor"
+                d="M5.374 20.065c-2.004 0-3.103-1.09-3.103-3.085V6.346c0-1.995 1.1-3.085 3.103-3.085h12.243c2.013 0 3.103 1.09 3.103 3.085V16.98c0 1.996-1.09 3.085-3.103 3.085H5.374Zm.167-2.267h11.91c.65 0 1.001-.317 1.001-1.01V8.973c0-.695-.351-1.011-1.002-1.011H5.541c-.66 0-1.002.316-1.002 1.01v7.814c0 .694.343 1.01 1.002 1.01Zm4.307-6.987c-.326 0-.44-.097-.44-.422V9.87c0-.316.114-.422.44-.422h.518c.317 0 .43.106.43.422v.519c0 .325-.113.421-.43.421h-.518Zm2.795 0c-.326 0-.44-.097-.44-.422V9.87c0-.316.114-.422.44-.422h.518c.316 0 .43.106.43.422v.519c0 .325-.114.421-.43.421h-.518Zm2.794 0c-.325 0-.439-.097-.439-.422V9.87c0-.316.114-.422.44-.422h.51c.325 0 .439.106.439.422v.519c0 .325-.114.421-.44.421h-.51Zm-8.384 2.75c-.325 0-.43-.096-.43-.421v-.519c0-.316.105-.422.43-.422h.518c.325 0 .431.106.431.422v.519c0 .325-.106.421-.43.421h-.52Zm2.795 0c-.326 0-.44-.096-.44-.421v-.519c0-.316.114-.422.44-.422h.518c.317 0 .43.106.43.422v.519c0 .325-.113.421-.43.421h-.518Zm2.795 0c-.326 0-.44-.096-.44-.421v-.519c0-.316.114-.422.44-.422h.518c.316 0 .43.106.43.422v.519c0 .325-.114.421-.43.421h-.518Zm2.794 0c-.325 0-.439-.096-.439-.421v-.519c0-.316.114-.422.44-.422h.51c.325 0 .439.106.439.422v.519c0 .325-.114.421-.44.421h-.51Zm-8.384 2.752c-.325 0-.43-.106-.43-.422v-.519c0-.325.105-.422.43-.422h.518c.325 0 .431.097.431.422v.519c0 .316-.106.421-.43.421h-.52Zm2.795 0c-.326 0-.44-.106-.44-.422v-.519c0-.325.114-.422.44-.422h.518c.317 0 .43.097.43.422v.519c0 .316-.113.421-.43.421h-.518Zm2.795 0c-.326 0-.44-.106-.44-.422v-.519c0-.325.114-.422.44-.422h.518c.316 0 .43.097.43.422v.519c0 .316-.114.421-.43.421h-.518Z"
+              ></path>
+            </svg>
+            <span>Daily Targets ></span>
+          </div>
+          <p>{{ props.day }}/{{ month }}/2023</p>
+        </div>
+      </div>
       <div class="right-header">
         <div class="header-live-counter">
           <div class="blink"></div>
@@ -65,14 +173,77 @@ onMounted(() => {
     right: 0;
     left: 17rem;
     backdrop-filter: blur(20px);
-    padding: 0.7rem calc(18rem) 0.7rem 1rem;
+    padding: 0.7rem 18rem 0.7rem 1rem;
     display: flex;
     justify-content: space-between;
     z-index: 10;
+    &.wider {
+      left: 0;
+      padding: 0.7rem 1rem;
+    }
 
     > div {
       width: 100%;
       display: flex;
+    }
+    .left-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .button-logo {
+        display: flex;
+        align-items: center;
+
+        button {
+          width: 2.5rem;
+          height: 2.5rem;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 0;
+          border-radius: 40px;
+          box-shadow: inset 1px 1px 2px hsla(0, 0%, 100%, 0.1);
+          @include header-button-bg;
+          @include text-color($dark-text);
+          cursor: pointer;
+          line-height: 1.2;
+          transition:
+            transform 0.2s ease-in-out,
+            background-color 0.2s ease-in-out;
+          letter-spacing: 0.2px;
+          text-align: left;
+          &:hover {
+            transform: translate(0, -3px);
+            @include header-button-bg-hover;
+          }
+        }
+        img {
+          display: block;
+          height: 3.75rem;
+          @include bg-color(#fff);
+          padding: 1.2rem;
+        }
+      }
+
+      .daily-target-date {
+        display: flex;
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.4;
+        gap: 1rem;
+        .hstack {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          @include sidebar-text;
+          gap: 0.5rem;
+        }
+        p {
+          @include text-color($dark-text);
+        }
+      }
     }
     .right-header {
       justify-content: end;

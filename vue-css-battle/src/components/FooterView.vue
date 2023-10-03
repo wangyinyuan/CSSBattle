@@ -1,7 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { TargetProps } from '@/types/target'
+import { computed } from 'vue'
+
+//获取props
+const props = withDefaults(defineProps<TargetProps>(), {
+  id: ''
+})
+//判断是否变宽
+const isWider = computed(() => {
+  return props.id !== ''
+})
+</script>
 
 <template>
-  <div class="footer">
+  <div class="footer" :class="{ wider: isWider }">
     <span>© 2023 CSSBattle</span>
     <div class="links">
       <a class="link">Tips & Tricks</a>
@@ -73,6 +85,11 @@
   font-size: 1.2rem;
   font-weight: 500;
   padding: 0.8rem 1.2rem;
+
+  &.wider {
+    width: 100vw;
+    left: 0;
+  }
   span {
     @include footer-left-text;
   }

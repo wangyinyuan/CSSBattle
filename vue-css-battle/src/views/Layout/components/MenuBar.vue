@@ -1,18 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import type { TargetProps } from '@/types/target'
+
 enum Selection {
   Home,
   Daily,
   Battles,
   Leaderboards,
-  Learn
+  Learn,
+  None
 }
-const selectedItem = ref<Selection>(Selection.Home)
+//接受props
+const props = withDefaults(
+  defineProps<
+    TargetProps & {
+      selectedItem: Selection
+    }
+  >(),
+  {
+    id: ''
+  }
+)
+//是否影藏logo
+const isLogoHidden = computed(() => {
+  return props.id !== ''
+})
+//当前选中的菜单
+const selectedItem = ref<Selection>(props.selectedItem || Selection.Home)
 </script>
 
 <template>
-  <div class="sidebar-container">
-    <div class="logo-container">
+  <div class="sidebar-container" :class="{ lower: isLogoHidden }">
+    <div class="logo-container" v-if="!isLogoHidden">
       <img src="https://cssbattle.dev/images/logo-new.svg" alt="logo" />
     </div>
     <div class="menu-container">
@@ -152,7 +171,7 @@ const selectedItem = ref<Selection>(Selection.Home)
   display: flex;
   flex-direction: column;
   justify-content: start;
-  height: 100vh;
+  height: 100%;
   width: 16rem;
   @include sidebar-bg;
   @include sidebar-text;
@@ -160,12 +179,17 @@ const selectedItem = ref<Selection>(Selection.Home)
   position: fixed;
   top: 0;
   left: 1rem;
+  &.lower {
+    top: 60px;
+    height: calc(100% - 60px);
+  }
   .logo-container {
     display: block;
     height: 3.75rem;
     @include bg-color(#fff);
     padding: 1.5rem 2rem;
   }
+
   .menu-container {
     height: 100%;
     display: flex;
