@@ -25,6 +25,16 @@ const routes = [
         path: 'battles',
         component: Battles,
         meta: { title: 'Battles | CSSBattle' }
+      },
+      {
+        path: 'login',
+        component: () => import('@/views/Login/LoginView.vue'),
+        meta: { title: 'Login | CSSBattle' }
+      },
+      {
+        path: 'leaderboard',
+        component: () => import('@/views/LeaderBoard/LeaderBoardView.vue'),
+        meta: { title: 'Leaderboard | CSSBattle' }
       }
     ]
   },
