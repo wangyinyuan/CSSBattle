@@ -275,3 +275,84 @@
       inset 1px 1px 3px rgba(255, 255, 255, 0.1);
     }
   }
+
+  @mixin editor-header-bg {
+    [data-theme='dark'] & {
+      background: #2a313a;
+      border-top: 1px solid #323f4a;
+    }
+    [data-theme='light'] & {
+      background: #cbd5e0;
+      border-top: 1px solid #cbd5e0;
+    }
+
+  }
+
+  @mixin editor-footer-bg {
+    [data-theme='dark'] & {
+      background: rgb(19, 24, 28);
+      
+    }
+    [data-theme='light'] & {
+      background: rgb(226, 232, 240);
+    }
+
+  }
+  @mixin editor-submit-border {
+    [data-theme='dark'] & {
+      border: 1px solid $dark-target-border;
+    }
+    [data-theme='light'] & {
+      border: 1px solid $light-target-border;
+    }
+  } 
+
+  @mixin play-header-bg {
+    [data-theme='dark'] & {
+      background: #21272d;
+      border-top: 1px solid #323f4a;
+    }
+    [data-theme='light'] & {
+      background: #e2e8f0;
+      border-top: 1px solid #cbd5e0;
+    }
+
+  }
+
+  @mixin play-output-radio-bg {
+    [data-theme='dark'] & {
+      background: #07080b;
+      border: 3px solid #27313a;
+    }
+    [data-theme='light'] & {
+      background: #edf2f7;
+      border: 3px solid #cbd5e0;
+    }
+  }
+  @mixin target-color-divider-bg {
+    [data-theme='dark'] & {
+      background: #21272d;
+    }
+    [data-theme='light'] & {
+      background: #e2e8f0;
+    }
+  }
+  @mixin color-text-bg {
+    [data-theme='dark'] & {
+      background-color: rgb(45,55,67);
+      color: #a0b3c6;
+    }
+    [data-theme='light'] & {
+      background-color: rgb(255,255,255);
+      color: #2d3748;
+    }
+  }
+  @mixin sponsor-img {
+    [data-theme='dark'] & {
+      border: 1px solid #27313a;
+    }
+    [data-theme='light'] & {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #cbd5e0;    }
+  }
+  
