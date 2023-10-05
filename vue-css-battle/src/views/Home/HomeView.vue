@@ -3,9 +3,13 @@ import DailyTarget from '@/components/DailyTarget.vue'
 import { targetListHomePanel } from '@/data/targets'
 import { useThemeStore } from '@/stores/themeStore'
 import { nextTick, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import ScrollBar from './components/ScrollBar.vue'
 
 const themeStore = useThemeStore()
+
+//获取路由对象
+const router = useRouter()
 
 //居中Today Target在屏幕中间
 const scrollView = ref<HTMLElement | null>(null)
@@ -37,7 +41,7 @@ onMounted(() => {
           The funnest multiplayer game with 300K+ web designers & developers. Replicate the target
           images using CSS - the shorter your code, the higher your score! Happy coding!
         </p>
-        <button>Sign In / Sign Up</button>
+        <button @click="router.push({ path: '/login' })">Sign In / Sign Up</button>
       </article>
     </div>
     <div class="separator"></div>
@@ -67,9 +71,9 @@ onMounted(() => {
             <p>A new target everyday for you to unwind. No leaderboards, no competition</p>
           </div>
         </div>
-        <RouterLink to="/daily" class="custom-link"
-          ><button>View all daily targets</button></RouterLink
-        >
+        <RouterLink to="/daily" class="custom-link">
+          <button>View all daily targets</button>
+        </RouterLink>
       </div>
       <div class="home-daily-panel">
         <div class="targets" ref="scrollView">

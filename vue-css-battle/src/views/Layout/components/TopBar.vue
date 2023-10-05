@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/themeStore'
-import { onMounted, computed, ref } from 'vue'
 import { TargetProps } from '@/types/target'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -150,7 +150,9 @@ onMounted(() => {
           </svg>
         </button>
         <!-- 未登录展示登录，已登录展示头像 -->
-        <button class="login button">Sign In / Sign Up</button>
+        <button class="login button" @click="router.push({ path: '/login' })">
+          Sign In / Sign Up
+        </button>
       </div>
     </header>
   </div>
