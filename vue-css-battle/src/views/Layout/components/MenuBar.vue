@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TargetProps } from '@/types/target'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 enum Selection {
   Home,
@@ -10,23 +11,34 @@ enum Selection {
   Learn,
   None
 }
-//接受props
-const props = withDefaults(
-  defineProps<
-    TargetProps & {
-      selectedItem: Selection
-    }
-  >(),
-  {
-    id: ''
+
+//通过路由来判断当前选中的菜单
+const route = useRoute()
+//当前选中的菜单
+const selectedItem = computed(() => {
+  switch (route.path) {
+    case '/':
+      return Selection.Home
+    case '/daily':
+      return Selection.Daily
+    case '/battles':
+      return Selection.Battles
+    case '/leaderboard':
+      return Selection.Leaderboards
+    case '/learn':
+      return Selection.Learn
+    default:
+      return Selection.None
   }
-)
+})
+//接受props
+const props = withDefaults(defineProps<TargetProps>(), {
+  id: ''
+})
 //是否影藏logo
 const isLogoHidden = computed(() => {
   return props.id !== ''
 })
-//当前选中的菜单
-const selectedItem = ref<Selection>(props.selectedItem || Selection.Home)
 </script>
 
 <template>

@@ -1,7 +1,19 @@
+import type { TargetScore } from '@/types/target'
+
 export type UserProfile = {
-  id: string
-  name: string
-  avatar: string
+  token?: string
+  id?: string
+  name?: string
+  avatar?: string
   bio?: string
-  isPlus: boolean
+  isPlus?: boolean
+}
+
+export type UserGameInfo = {
+  id?: string
+  name?: string
+  avatar?: string
+  totalScore?: number
+  totalTarget?: number
+  rank?: number
 }

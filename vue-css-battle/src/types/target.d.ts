@@ -13,3 +13,9 @@ export type TargetProps = {
   day?: string
   id?: string
 }
+
+export type TargetScore = {
+  id: string
+  lastScore: string
+  highScore: string
+}

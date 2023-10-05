@@ -99,7 +99,7 @@ onMounted(() => {})
   <TopBar v-bind="myData" @openMenu="isMenuVisible = true" @closeMenu="isMenuVisible = false" />
   <!--菜单栏-->
   <el-dialog v-model="isMenuVisible" :show-close="false" :width="`0%`">
-    <MenuBar v-bind="{ ...myData, selectedItem: Selection.None }" />
+    <MenuBar v-bind="myData" />
   </el-dialog>
   <!--主体内容-->
   <div class="play-body-container">
@@ -188,9 +188,13 @@ onMounted(() => {})
             :class="{ hovered: hover }"
             :style="{ width: `${imageWidth}px` }"
           >
-            <iframe class="preview-iframe" :srcdoc="code" sandbox=""></iframe>
+            <iframe class="preview-iframe" :srcdoc="code" sandbox="" scrolling="no"></iframe>
           </div>
-          <div class="preview-distance" :style="{ left: `${imageWidth}px` }">
+          <div
+            class="preview-distance"
+            :style="{ left: `${imageWidth}px` }"
+            :class="{ hovered: hover }"
+          >
             {{ imageWidthInt }}
           </div>
         </div>
@@ -580,6 +584,10 @@ onMounted(() => {})
           color: #fff;
           z-index: 1;
           border-radius: 0.3rem;
+          opacity: 0;
+          &.hovered {
+            opacity: 1;
+          }
         }
       }
       .radio-tabs {

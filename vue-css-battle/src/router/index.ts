@@ -35,6 +35,11 @@ const routes = [
         path: 'leaderboard',
         component: () => import('@/views/LeaderBoard/LeaderBoardView.vue'),
         meta: { title: 'Leaderboard | CSSBattle' }
+      },
+      {
+        path: 'learn',
+        component: () => import('@/views/Learn/LearnView.vue'),
+        meta: { title: 'Learn | CSSBattle' }
       }
     ]
   },
