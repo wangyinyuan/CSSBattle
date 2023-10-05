@@ -2,6 +2,7 @@
 import CountDown from '@/components/CountDown.vue'
 import type { TargetProps } from '@/types/target'
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const targetInfo = defineProps<TargetProps>()
 
@@ -15,7 +16,19 @@ const getRandom = (min: number, max: number): number => {
 const updateFreqY = () => {
   baseFreqY.value = getRandom(0.0, 0.1)
 }
+//设置路由导航
+const router = useRouter()
 
+const onTargetClick = () => {
+  if (!targetInfo.isLocked) {
+    router.push({
+      name: 'play',
+      query: {
+        data: JSON.stringify(targetInfo)
+      }
+    })
+  }
+}
 onMounted(() => {
   //更新滤镜参数
   updateFreqYId = setInterval(() => {
@@ -33,6 +46,7 @@ onUnmounted(() => {
   <div
     class="target-container"
     :class="{ trans: targetInfo.isTransparent, today: targetInfo.isToday }"
+    @click="onTargetClick"
   >
     <div :class="{ 'tv-glitch': targetInfo.isLocked }" class="target-body">
       <svg v-if="targetInfo.isLocked">
@@ -113,6 +127,9 @@ onUnmounted(() => {
   &:hover {
     cursor: pointer;
     transform: scale(1.05);
+    .date {
+      opacity: 0;
+    }
   }
   @include target-bg-large;
   @include target-text;
@@ -120,16 +137,35 @@ onUnmounted(() => {
   padding: 1rem;
   position: relative;
   display: block;
-  max-width: 320px;
-  min-width: 310px;
+  max-width: 340px;
+  min-width: 330px;
   border-radius: 1.8rem;
-  @include target-border-today;
+  &.today {
+    @include target-border-today;
+  }
   .target-body {
+    display: relative;
     .target-display {
       aspect-ratio: 4/3;
       border-radius: 1rem;
       width: 100%;
       margin-bottom: 1rem;
+    }
+    .date {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
+      padding: 0.2rem 0.5rem;
+      transition: opacity 0.2s ease;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.8);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      gap: 0.5rem;
     }
   }
 
@@ -222,6 +258,7 @@ onUnmounted(() => {
     filter: url(#noise);
     opacity: 0.6;
     width: 100%;
+    margin: 0 !important;
   }
   .lock-icon {
     position: absolute;

@@ -194,7 +194,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '30',
     image:
@@ -207,7 +207,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '29',
     image:
@@ -220,7 +220,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '28',
     image:
@@ -233,7 +233,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '27',
     image:
@@ -246,7 +246,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '26',
     image:
@@ -259,7 +259,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '25',
     image:
@@ -272,10 +272,11 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '24',
-    image: ''
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/cssbattleapp.appspot.com/o/user%2Fummd3POvEDfFyeFvVdOMG3OOrwE2%2Ftargets%2Ftarget_T7arYiU.png?alt=media'
   },
   {
     id: '15',
@@ -284,7 +285,7 @@ export const targetListDaily: TargetProps[] = [
     isShowDate: true,
     isToday: false,
     highestScore: 'Not Played',
-    isTransparent: true,
+    isTransparent: false,
     month: 'SEP',
     day: '23',
     image:

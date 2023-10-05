@@ -25,10 +25,36 @@ const routes = [
         path: 'battles',
         component: Battles,
         meta: { title: 'Battles | CSSBattle' }
+      },
+      {
+        path: 'login',
+        component: () => import('@/views/Login/LoginView.vue'),
+        meta: { title: 'Login | CSSBattle' }
+      },
+      {
+        path: 'leaderboard',
+        component: () => import('@/views/LeaderBoard/LeaderBoardView.vue'),
+        meta: { title: 'Leaderboard | CSSBattle' }
+      },
+      {
+        path: 'learn',
+        component: () => import('@/views/Learn/LearnView.vue'),
+        meta: { title: 'Learn | CSSBattle' }
       }
     ]
   },
-  { path: '/:pathMatch(.*)*', component: NotFound, meta: { title: '404 NotFounded' } }
+  {
+    path: '/play',
+    component: () => import('@/views/Play/PlayView.vue'),
+    meta: { title: 'Play | CSSBattle' },
+    name: 'play'
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFound,
+    meta: { title: '404 NotFounded' },
+    name: 'not-found'
+  }
 ]
 
 const router = createRouter({
