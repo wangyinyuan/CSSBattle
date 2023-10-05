@@ -14,6 +14,7 @@ import { autocompletion } from '@codemirror/autocomplete'
 import { css } from '@codemirror/lang-css'
 import { html } from '@codemirror/lang-html'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { ElNotification } from 'element-plus'
 import { Codemirror } from 'vue-codemirror'
 
 enum Selection {
@@ -86,6 +87,28 @@ const onMouseMove = (e: MouseEvent) => {
 }
 const onMouseLeave = (e: MouseEvent) => {
   imageWidth.value = 400
+}
+
+//复制颜色
+const copyToClipboard = async (color: string) => {
+  try {
+    await navigator.clipboard.writeText(color)
+    ElNotification({
+      title: 'Success',
+      message: `<strong>${color}</strong> copied to clipboard`,
+      type: 'success',
+      dangerouslyUseHTMLString: true,
+      position: 'bottom-right'
+    })
+  } catch (err) {
+    ElNotification({
+      title: 'Error',
+      message: `Failed to copy <strong>${color}</strong> to clipboard`,
+      type: 'error',
+      dangerouslyUseHTMLString: true,
+      position: 'bottom-right'
+    })
+  }
 }
 
 onBeforeMount(() => {
@@ -377,13 +400,13 @@ onMounted(() => {})
         <div class="color-palette">
           <div class="color-header">Colors</div>
           <ul class="color-lists">
-            <li>
-              #E69041
-              <div></div>
-            </li>
-            <li>
-              #221F20
-              <div></div>
+            <li
+              v-for="(color, index) in myData?.colors"
+              :key="index"
+              @click="copyToClipboard(color)"
+            >
+              {{ color }}
+              <div :style="{ 'background-color': color }"></div>
             </li>
           </ul>
         </div>
@@ -771,7 +794,6 @@ onMounted(() => {})
               height: 1.5rem;
               width: 1.5rem;
               left: 0.6rem;
-              background-color: #e69041;
               transition: transform 0.2s ease-in-out;
             }
           }

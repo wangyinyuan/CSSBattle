@@ -12,6 +12,7 @@ export type TargetProps = {
   month?: string
   day?: string
   id?: string
+  colors?: string[]
 }
 
 export type TargetScore = {

@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 //表单信息
 const username = ref('')
 const password = ref('')
-
-const login = async () => {}
+const router = useRouter()
+//获取用户信息
+const userStore = useUserStore()
+const login = () => {
+  userStore.getUserInfo({ username: username.value, password: password.value })
+  router.push('/')
+}
 </script>
 
 <template>
