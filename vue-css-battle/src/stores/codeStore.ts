@@ -27,7 +27,6 @@ info. -->
 <!-- IMPORTANT: remove the comments before submitting -->`
 
 export const useCodeStore = defineStore('code', () => {
-  // Helper function to generate a local storage key for a given targetId
   function getStorageKey(targetId: string): string {
     return `user-code-${targetId}`
   }
