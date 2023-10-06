@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import Footer from '@/components/FooterView.vue'
 import { useCodeStore } from '@/stores/codeStore'
+import { useUserStore } from '@/stores/userStore'
 import { TargetProps } from '@/types/target'
 import MenuBar from '@/views/Layout/components/MenuBar.vue'
 import TopBar from '@/views/Layout/components/TopBar.vue'
-import { computed, onBeforeMount, onMounted, ref, watchEffect } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 //导入codemirror的包
-import { users } from '@/data/user'
+
+import router from '@/router'
 import { useThemeStore } from '@/stores/themeStore'
 import { UserProfile } from '@/types/userProfile'
 import { autocompletion } from '@codemirror/autocomplete'
 import { css } from '@codemirror/lang-css'
 import { html } from '@codemirror/lang-html'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { ElNotification } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 import { Codemirror } from 'vue-codemirror'
 
 enum Selection {
@@ -37,19 +39,34 @@ const getQueryData = () => {
   }
 }
 //获取当前用户信息
-const user = ref<UserProfile>(users[1])
+const userStore = useUserStore()
+const user = ref<UserProfile>(userStore.userInfo)
 
 //控制菜单是否可见
 const isMenuVisible = ref(false)
 
 //代码编辑
 const codeStore = useCodeStore()
-const code = ref(codeStore.code)
+
+const code = ref('')
 const placeholder = ref(`Enter your HTML and CSS here...`)
 const extensions = [oneDark, html(), css(), autocompletion()]
 //监听代码变化,并更新store
-watchEffect(() => {
-  codeStore.saveCode(code.value)
+watch(code, (newCode) => {
+  if (myData.value?.id) {
+    //检查代码里面是否含有js代码
+    if (containJsCode(newCode)) {
+      ElMessage({
+        message: '<h2>Please do not use JavaScript</h2>',
+        type: 'error',
+        dangerouslyUseHTMLString: true
+      })
+      return
+    }
+    codeStore.saveCode(myData.value?.id, newCode)
+    console.log('success!!!')
+    console.log('Saving to localStorage', myData.value?.id!, newCode)
+  }
 })
 //设置背景颜色
 const themeStore = useThemeStore()
@@ -110,11 +127,57 @@ const copyToClipboard = async (color: string) => {
     })
   }
 }
+//提交代码
+const onSubmit = () => {
+  if (!userStore.userInfo.token) {
+    ElNotification({
+      title: 'Submit Failed',
+      message: `You need to sign in to submit your code`,
+      type: 'warning',
+      dangerouslyUseHTMLString: true,
+      position: 'top-left'
+    })
+  } else if (userStore.userInfo.isPlus === false) {
+    ElNotification({
+      title: 'Submit Failed',
+      message: `This feature is only available for CSSBattle Plus users`,
+      type: 'warning',
+      position: 'top-left'
+    })
+  } else {
+    ElMessage({
+      message: 'Submit successfully',
+      type: 'success'
+    })
+    setTimeout(() => {
+      router.push({ path: '/' })
+    }, 1000)
+  }
+}
+//代码检查
+function containJsCode(code: string) {
+  const patterns = [
+    /<script[^>]*>([\s\S]*?)<\/script>/gi,
+    /javascript\s*:/i,
+    /on\w+\s*=/i,
+    /document\s*\./i,
+    /window\s*\./i
+  ]
+  for (let pattern of patterns) {
+    if (pattern.test(code)) {
+      return true
+    }
+  }
+  return false
+}
 
 onBeforeMount(() => {
   getQueryData()
 })
-onMounted(() => {})
+onMounted(() => {
+  console.log('Loading from localStorage', myData.value?.id!)
+  code.value = codeStore.loadCode(myData.value?.id!)
+})
 </script>
 
 <template>
@@ -149,7 +212,7 @@ onMounted(() => {})
         class="editor"
       />
       <div class="solutions-submit">
-        <button class="solutions">
+        <button class="solutions" @click="onSubmit">
           <svg
             v-if="!user.isPlus"
             width="20"
@@ -166,7 +229,7 @@ onMounted(() => {})
           </svg>
           Top Solutions
         </button>
-        <button class="submit">
+        <button class="submit" @click="onSubmit">
           <svg
             v-if="!user.isPlus"
             width="20"

@@ -106,10 +106,10 @@
 
   @mixin body-bg {
     [data-theme='dark'] & {
-      background-color: $dark-body-bg;
+      background-color: $dark-body-bg !important;
     }
     [data-theme='light'] & {
-      background-color: $light-body-bg;
+      background-color: $light-body-bg !important;
     }
   }
 

@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
         username,
         password: hashedPassword,
         avatar:
-          "https://c-ssl.duitang.com/uploads/item/202003/04/20200304163106_gbgqq.thumb.1000_0.jpeg",
+          "https://i.pravatar.cc/150?img=2",
         bio: "这个人很懒，什么都没有留下",
         isPlus: false,
         totalScore: 0,
@@ -33,7 +33,9 @@ router.post("/login", async (req, res) => {
     else {
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res.status(400).send("Invalid password");
+        return res.status(400).json({
+          message: 'Your code is error!'
+        });
       }
       //更新token
       user.token = jwt.sign({ username }, "my_secret_key");

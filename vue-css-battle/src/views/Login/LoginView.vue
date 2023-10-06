@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/userStore'
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 //表单信息
@@ -8,8 +9,16 @@ const password = ref('')
 const router = useRouter()
 //获取用户信息
 const userStore = useUserStore()
-const login = () => {
-  userStore.getUserInfo({ username: username.value, password: password.value })
+const login = async () => {
+  await userStore.getUserInfo({ username: username.value, password: password.value })
+  const userName = userStore.userInfo.name
+  if (!userName) return
+  ElMessage({
+    message: `Welcome <strong>${userName}</strong>!`,
+    type: 'success',
+    duration: 2000,
+    dangerouslyUseHTMLString: true
+  })
   router.push('/')
 }
 </script>

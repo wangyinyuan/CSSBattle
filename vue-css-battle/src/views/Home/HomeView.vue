@@ -2,6 +2,7 @@
 import DailyTarget from '@/components/DailyTarget.vue'
 import { targetListHomePanel } from '@/data/targets'
 import { useThemeStore } from '@/stores/themeStore'
+import { useUserStore } from '@/stores/userStore'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ScrollBar from './components/ScrollBar.vue'
@@ -25,6 +26,8 @@ const centerTodayView = () => {
     }
   })
 }
+//获取用户信息
+const userStore = useUserStore()
 
 onMounted(() => {
   centerTodayView()
@@ -41,7 +44,9 @@ onMounted(() => {
           The funnest multiplayer game with 300K+ web designers & developers. Replicate the target
           images using CSS - the shorter your code, the higher your score! Happy coding!
         </p>
-        <button @click="router.push({ path: '/login' })">Sign In / Sign Up</button>
+        <button @click="router.push({ path: '/login' })" v-if="!userStore.userInfo.token">
+          Sign In / Sign Up
+        </button>
       </article>
     </div>
     <div class="separator"></div>

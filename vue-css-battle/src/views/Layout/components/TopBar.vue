@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/themeStore'
+import { useUserStore } from '@/stores/userStore'
 import { TargetProps } from '@/types/target'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -10,6 +12,8 @@ const themeStore = useThemeStore()
 const props = withDefaults(defineProps<TargetProps>(), {
   id: ''
 })
+//获取用户信息
+const userStore = useUserStore()
 
 const isLeftButtonExist = computed(() => {
   return props.id !== ''
@@ -76,7 +80,10 @@ const toggleMenu = () => {
   }
   isMenuOpen.value = false
 }
-
+//退出登录
+const onLogOut = () => {
+  userStore.clearUserInfo()
+}
 onMounted(() => {
   //加载主题
   themeStore.setThemeOnRoot(themeStore.theme)
@@ -150,7 +157,31 @@ onMounted(() => {
           </svg>
         </button>
         <!-- 未登录展示登录，已登录展示头像 -->
-        <button class="login button" @click="router.push({ path: '/login' })">
+        <button class="button avatar" v-if="userStore.userInfo.token">
+          <el-avatar :src="userStore.userInfo.avatar" fit="cover" alt="" size="default" />
+          <span>{{ userStore.userInfo.name }}</span>
+          <el-dropdown size="large" style="border: none">
+            <el-icon class="el-icon--right">
+              <arrow-down />
+            </el-icon>
+            <template #dropdown>
+              <el-dropdown-menu
+                :style="{ background: `${themeStore.theme === 'dark' ? '#27313a' : '#edf2f7'}` }"
+              >
+                <el-dropdown-item
+                  :style="{
+                    color: `${themeStore.theme === 'dark' ? 'rgb(255,255,255)' : 'rgb(5,5,5)'}`
+                  }"
+                  class="el-dropdown-menu-item"
+                  @click="onLogOut"
+                >
+                  Log out
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </button>
+        <button class="login button" @click="router.push({ path: '/login' })" v-else>
           Sign In / Sign Up
         </button>
       </div>
@@ -274,6 +305,15 @@ onMounted(() => {
       }
       .login {
         height: 48px;
+      }
+      .avatar {
+        padding: 0.5rem, 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 1rem;
+        font-size: 1.3rem;
+        font-weight: 800;
       }
       .switch-theme {
         width: 2.5rem;

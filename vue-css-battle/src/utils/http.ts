@@ -26,8 +26,9 @@ httpInstance.interceptors.response.use(
   },
   (error) => {
     ElMessage({
-      type: 'warning',
-      message: error.response.data.message
+      type: 'error',
+      message: error.response.data.message,
+      duration: 2000
     })
     return Promise.reject(error)
   }

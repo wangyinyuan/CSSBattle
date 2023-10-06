@@ -70,3 +70,8 @@ dd {
 
  }
 
+ .el-dropdown-menu-item {
+  &:hover {
+    @include body-bg;
+  }
+}
