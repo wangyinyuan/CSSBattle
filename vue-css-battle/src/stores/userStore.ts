@@ -7,10 +7,11 @@ export const useUserStore = defineStore(
   'user',
   () => {
     const userInfo = ref<UserProfile>({})
-    const getUserInfo = async ({ account, password }: { account: string; password: string }) => {
-      const res = await loginAPI({ account, password })
+    const getUserInfo = async ({ username, password }: { username: string; password: string }) => {
+      const res = await loginAPI({ username, password })
       userInfo.value = res
     }
+
     //清除用户信息
     const clearUserInfo = () => {
       userInfo.value = {}

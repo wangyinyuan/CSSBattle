@@ -1,12 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
-export const useCodeStore = defineStore('code', () => {
-  const code = ref('')
-
-  code.value =
-    localStorage.getItem('user-code') ||
-    `<!-- Write HTML between the <div> tags below -->
+const DEFAULT_CODE_TEMPLATE = `<!-- Write HTML between the <div> tags below -->
 <div>
   
 </div>
@@ -32,9 +26,19 @@ info. -->
     
 <!-- IMPORTANT: remove the comments before submitting -->`
 
-  function saveCode(code: string): void {
-    localStorage.setItem('user-code', code)
+export const useCodeStore = defineStore('code', () => {
+  // Helper function to generate a local storage key for a given targetId
+  function getStorageKey(targetId: string): string {
+    return `user-code-${targetId}`
   }
 
-  return { code, saveCode }
+  function loadCode(targetId: string): string {
+    return localStorage.getItem(getStorageKey(targetId)) || DEFAULT_CODE_TEMPLATE
+  }
+
+  function saveCode(targetId: string, code: string): void {
+    localStorage.setItem(getStorageKey(targetId), code)
+  }
+
+  return { saveCode, loadCode }
 })

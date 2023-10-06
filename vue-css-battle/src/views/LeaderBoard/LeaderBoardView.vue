@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { userGameInfo } from '@/data/user'
 import { useThemeStore } from '@/stores/themeStore'
+import type { UserGameInfo } from '@/types/userProfile'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
@@ -7,6 +9,10 @@ import { ref } from 'vue'
 const themeStore = useThemeStore()
 //选中的栏目
 const selectedItem = ref(0)
+
+//获取排名数据
+const userGameList = ref<UserGameInfo[]>([])
+userGameList.value = userGameInfo
 </script>
 
 <template>
@@ -169,17 +175,14 @@ const selectedItem = ref(0)
       </div>
       <div class="top-leaders"></div>
       <div class="leader-list">
-        <div class="leader-item" v-for="(item, index) in 10" :key="index">
+        <div class="leader-item" v-for="item in userGameList" :key="item.id">
           <div class="user-info">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/cssbattleapp.appspot.com/o/user%2F7R9WlalkmnObnjX3U0aolPmO0vO2%2Favatar_7R9WlalkmnObnjX3U0aolPmO0vO2.png?alt=media"
-              alt=""
-            />
-            <span class="user-name">Joe</span>
+            <img :src="item.avatar" alt="" />
+            <span class="user-name">{{ item.name }}</span>
           </div>
-          <div class="total-score">120895.03</div>
-          <div class="total-target">(170 Targets)</div>
-          <div class="user-rank">#1</div>
+          <div class="total-score">{{ item.totalScore }}</div>
+          <div class="total-target">({{ item.totalTarget }} Targets)</div>
+          <div class="user-rank">#{{ item.rank }}</div>
         </div>
       </div>
     </div>
