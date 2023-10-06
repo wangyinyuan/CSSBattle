@@ -82,6 +82,12 @@ const characters = computed(() => {
 const isSlideAndCompare = ref(false)
 const isDiff = ref(false)
 
+const onMouseOver = () => {
+  if (isSlideAndCompare.value) {
+    hover.value = true
+  }
+}
+
 //stats框选中情况
 const selectedBar = ref(0)
 const isYoursSelected = computed(() => {
@@ -97,7 +103,7 @@ const imageWidthInt = computed(() => {
 })
 
 const onMouseMove = (e: MouseEvent) => {
-  if (preview.value) {
+  if (preview.value && isSlideAndCompare.value) {
     const left = preview.value.getBoundingClientRect().left
     imageWidth.value = e.clientX - left
   }
@@ -268,11 +274,17 @@ onMounted(() => {
           ref="preview"
         >
           <img class="target-image" alt="" :src="myData?.image" />
-          <div class="trans" @mouseover="hover = true" @mouseleave="hover = false"></div>
+          <div
+            class="trans"
+            @mouseover="onMouseOver"
+            @mouseleave="hover = false"
+            v-show="!isDiff"
+          ></div>
           <div
             class="preview-div"
             :class="{ hovered: hover }"
             :style="{ width: `${imageWidth}px` }"
+            v-show="!isDiff"
           >
             <iframe class="preview-iframe" :srcdoc="code" sandbox="" scrolling="no"></iframe>
           </div>
@@ -280,6 +292,7 @@ onMounted(() => {
             class="preview-distance"
             :style="{ left: `${imageWidth}px` }"
             :class="{ hovered: hover }"
+            v-show="!isDiff"
           >
             {{ imageWidthInt }}
           </div>
