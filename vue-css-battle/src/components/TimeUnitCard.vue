@@ -6,8 +6,8 @@ const props = defineProps<TimeUnitCardProps>();
 
 <template>
   <div class="count" :class="{ changing: props.isChanging }">
-    <span class="current top">{{ props.now }}</span>
-    <span class="next top" v-show="props.isChanging">{{ props.next }}</span>
+    <span class="current top">{{ props.time.now }}</span>
+    <span class="next top" v-show="props.isChanging">{{ props.time.next }}</span>
   </div>
 </template>
 
