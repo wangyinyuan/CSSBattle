@@ -59,7 +59,12 @@ function updateCurrentAndResetSeconds() {
   hoursCurrent.value = hoursNext.value;
   minutesCurrent.value = minutesNext.value;
   secondsCurrent.value = secondsNext.value;
-  //这个地方改了超级久才发现
+
+  /* 因为第二位秒数在不停变化， 
+  导致 isSSndDgtChanged 一直为 true，
+  而倒计时动画需要 isSSndDgtChanged 从 false -> true，
+  所以需要在这里手动把 isSSndDgtChanged 变为 false
+  */
   isSFstDgtChanged.value = false;
   isSSndDgtChanged.value = false;
 }
