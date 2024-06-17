@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TargetProps } from '@/types/target'
+import type { TargetProps } from '@/types/target'
 import { computed } from 'vue'
 
 //获取props
