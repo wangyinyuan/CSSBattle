@@ -1,56 +1,47 @@
 <script setup lang="ts">
-import Footer from '@/components/FooterView.vue'
-import { useCodeStore } from '@/stores/codeStore'
-import { useUserStore } from '@/stores/userStore'
-import { TargetProps } from '@/types/target'
-import MenuBar from '@/views/Layout/components/MenuBar.vue'
-import TopBar from '@/views/Layout/components/TopBar.vue'
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import Footer from '@/components/FooterView.vue';
+import { useCodeStore } from '@/stores/codeStore';
+import { useUserStore } from '@/stores/userStore';
+import { TargetProps } from '@/types/target';
+import MenuBar from '@/views/Layout/components/MenuBar.vue';
+import TopBar from '@/views/Layout/components/TopBar.vue';
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 //导入codemirror的包
 
-import router from '@/router'
-import { useThemeStore } from '@/stores/themeStore'
-import { UserProfile } from '@/types/userProfile'
-import { autocompletion } from '@codemirror/autocomplete'
-import { css } from '@codemirror/lang-css'
-import { html } from '@codemirror/lang-html'
-import { oneDark } from '@codemirror/theme-one-dark'
-import { ElMessage, ElNotification } from 'element-plus'
-import { Codemirror } from 'vue-codemirror'
-
-enum Selection {
-  Home,
-  Daily,
-  Battles,
-  Leaderboards,
-  Learn,
-  None
-}
+import router from '@/router';
+import { useThemeStore } from '@/stores/themeStore';
+import { UserProfile } from '@/types/userProfile';
+import { autocompletion } from '@codemirror/autocomplete';
+import { css } from '@codemirror/lang-css';
+import { html } from '@codemirror/lang-html';
+import { oneDark } from '@codemirror/theme-one-dark';
+import { ElMessage, ElNotification } from 'element-plus';
+import { Codemirror } from 'vue-codemirror';
 
 //接受路由参数
-const myData = ref<TargetProps>()
+const myData = ref<TargetProps>();
 const getQueryData = () => {
-  const route = useRoute()
-  const router = useRouter()
-  myData.value = JSON.parse(route.query.data as string)
+  const route = useRoute();
+  const router = useRouter();
+  myData.value = JSON.parse(route.query.data as string);
   if (!myData.value) {
-    router.push({ name: 'not-found' })
+    router.push({ name: 'not-found' });
   }
-}
+};
 //获取当前用户信息
-const userStore = useUserStore()
-const user = ref<UserProfile>(userStore.userInfo)
+const userStore = useUserStore();
+const user = ref<UserProfile>(userStore.userInfo);
 
 //控制菜单是否可见
-const isMenuVisible = ref(false)
+const isMenuVisible = ref(false);
 
 //代码编辑
-const codeStore = useCodeStore()
+const codeStore = useCodeStore();
 
-const code = ref('')
-const placeholder = ref(`Enter your HTML and CSS here...`)
-const extensions = [oneDark, html(), css(), autocompletion()]
+const code = ref('');
+const placeholder = ref(`Enter your HTML and CSS here...`);
+const extensions = [oneDark, html(), css(), autocompletion()];
 //监听代码变化,并更新store
 watch(code, (newCode) => {
   if (myData.value?.id) {
@@ -60,69 +51,69 @@ watch(code, (newCode) => {
         message: '<h2>Please do not use JavaScript</h2>',
         type: 'error',
         dangerouslyUseHTMLString: true
-      })
-      return
+      });
+      return;
     }
-    codeStore.saveCode(myData.value?.id, newCode)
-    console.log('success!!!')
-    console.log('Saving to localStorage', myData.value?.id!, newCode)
+    codeStore.saveCode(myData.value?.id, newCode);
+    console.log('success!!!');
+    console.log('Saving to localStorage', myData.value?.id!, newCode);
   }
-})
+});
 //设置背景颜色
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 const backgroundColor = computed(() => {
-  return themeStore.theme === 'dark' ? 'rgb(7, 8, 11)' : 'rgb(246, 249, 251)'
-})
+  return themeStore.theme === 'dark' ? 'rgb(7, 8, 11)' : 'rgb(246, 249, 251)';
+});
 //计算字符数
 const characters = computed(() => {
-  return code.value.length
-})
+  return code.value.length;
+});
 
 //复选框逻辑
-const isSlideAndCompare = ref(false)
-const isDiff = ref(false)
+const isSlideAndCompare = ref(false);
+const isDiff = ref(false);
 
 const onMouseOver = () => {
   if (isSlideAndCompare.value) {
-    hover.value = true
+    hover.value = true;
   }
-}
+};
 
 //stats框选中情况
-const selectedBar = ref(0)
+const selectedBar = ref(0);
 const isYoursSelected = computed(() => {
-  return selectedBar.value === 0
-})
+  return selectedBar.value === 0;
+});
 
 //预览窗口处理
-const imageWidth = ref(400)
-const preview = ref<HTMLDivElement | null>(null)
-const hover = ref(false)
+const imageWidth = ref(400);
+const preview = ref<HTMLDivElement | null>(null);
+const hover = ref(false);
 const imageWidthInt = computed(() => {
-  return parseInt(imageWidth.value.toString())
-})
+  return parseInt(imageWidth.value.toString());
+});
 
 const onMouseMove = (e: MouseEvent) => {
   if (preview.value && isSlideAndCompare.value) {
-    const left = preview.value.getBoundingClientRect().left
-    imageWidth.value = e.clientX - left
+    const left = preview.value.getBoundingClientRect().left;
+    imageWidth.value = e.clientX - left;
   }
-}
+};
 const onMouseLeave = (e: MouseEvent) => {
-  imageWidth.value = 400
-}
+  imageWidth.value = 400;
+};
 
 //复制颜色
 const copyToClipboard = async (color: string) => {
   try {
-    await navigator.clipboard.writeText(color)
+    await navigator.clipboard.writeText(color);
     ElNotification({
       title: 'Success',
       message: `<strong>${color}</strong> copied to clipboard`,
       type: 'success',
       dangerouslyUseHTMLString: true,
       position: 'bottom-right'
-    })
+    });
   } catch (err) {
     ElNotification({
       title: 'Error',
@@ -130,10 +121,11 @@ const copyToClipboard = async (color: string) => {
       type: 'error',
       dangerouslyUseHTMLString: true,
       position: 'bottom-right'
-    })
+    });
   }
-}
-//提交代码
+};
+
+// 提交代码
 const onSubmit = () => {
   if (!userStore.userInfo.token) {
     ElNotification({
@@ -142,24 +134,24 @@ const onSubmit = () => {
       type: 'warning',
       dangerouslyUseHTMLString: true,
       position: 'top-left'
-    })
+    });
   } else if (userStore.userInfo.isPlus === false) {
     ElNotification({
       title: 'Submit Failed',
       message: `This feature is only available for CSSBattle Plus users`,
       type: 'warning',
       position: 'top-left'
-    })
+    });
   } else {
     ElMessage({
       message: 'Submit successfully',
       type: 'success'
-    })
+    });
     setTimeout(() => {
-      router.push({ path: '/' })
-    }, 1000)
+      router.push({ path: '/' });
+    }, 1000);
   }
-}
+};
 //代码检查
 function containJsCode(code: string) {
   const patterns = [
@@ -168,22 +160,22 @@ function containJsCode(code: string) {
     /on\w+\s*=/i,
     /document\s*\./i,
     /window\s*\./i
-  ]
+  ];
   for (let pattern of patterns) {
     if (pattern.test(code)) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 onBeforeMount(() => {
-  getQueryData()
-})
+  getQueryData();
+});
 onMounted(() => {
-  console.log('Loading from localStorage', myData.value?.id!)
-  code.value = codeStore.loadCode(myData.value?.id!)
-})
+  console.log('Loading from localStorage', myData.value?.id!);
+  code.value = codeStore.loadCode(myData.value?.id!);
+});
 </script>
 
 <template>

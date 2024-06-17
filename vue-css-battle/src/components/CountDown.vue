@@ -65,7 +65,6 @@ function updateCurrentAndResetSeconds() {
   而倒计时动画需要 isSSndDgtChanged 从 false -> true，
   所以需要在这里手动把 isSSndDgtChanged 变为 false
   */
-  isSFstDgtChanged.value = false;
   isSSndDgtChanged.value = false;
 }
 
