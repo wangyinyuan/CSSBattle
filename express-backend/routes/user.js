@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const apiConfig = require("../config/api");
 
 //Log in or sign up
 router.post("/login", async (req, res) => {
@@ -14,7 +15,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 10);
       //生成token
-      const token = jwt.sign({ username }, "my_secret_key");
+      const token = jwt.sign({ username }, apiConfig.jwtKey);
 
       user = new User({
         username,
