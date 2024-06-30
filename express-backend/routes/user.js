@@ -7,6 +7,7 @@ const apiConfig = require("../config/api");
 
 //Log in or sign up
 router.post("/login", async (req, res) => {
+  console.log("拦截了");
   try {
     const { username, password } = req.body;
     let user = await User.findOne({ username });
@@ -32,14 +33,17 @@ router.post("/login", async (req, res) => {
     }
     // 如果用户存在则检查密码
     else {
+      console.log("用户已存在：", user)
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res.status(400).json({
-          message: 'Your code is error!'
+        return res.status(401).json({
+          code: 401,
+          message: 'Your code is error!',
+          data: null,
         });
       }
       //更新token
-      user.token = jwt.sign({ username }, "my_secret_key");
+      user.token = jwt.sign({ username }, apiConfig.jwtKey);
       await user.save();
     }
 
