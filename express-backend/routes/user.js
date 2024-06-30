@@ -7,7 +7,6 @@ const apiConfig = require("../config/api");
 
 //Log in or sign up
 router.post("/login", async (req, res) => {
-  console.log("拦截了");
   try {
     const { username, password } = req.body;
     let user = await User.findOne({ username });
@@ -29,7 +28,9 @@ router.post("/login", async (req, res) => {
         totalTarget: 0,
         token,
       });
+
       await user.save();
+      console.log("新用户已创建：", user)
     }
     // 如果用户存在则检查密码
     else {

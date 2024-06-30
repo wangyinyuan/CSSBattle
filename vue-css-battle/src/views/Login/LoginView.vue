@@ -14,7 +14,7 @@ const login = async () => {
   const userName = userStore.userInfo.name;
   if (!userName) return;
   ElMessage({
-    message: `Welcome <strong>${userName}</strong>!`,
+    message: `Welcome <strong>${userName}</strong>🎉🎉🎉`,
     type: 'success',
     duration: 2000,
     dangerouslyUseHTMLString: true
