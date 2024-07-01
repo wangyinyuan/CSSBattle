@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', userRoute);  
+app.use('/user', userRoute);  
 
 // 连接到MongoDB数据库
 mongoose.connect(dbConfig.server, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
