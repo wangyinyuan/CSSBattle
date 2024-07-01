@@ -36,6 +36,9 @@ const user = ref<UserProfile>(userStore.userInfo);
 //控制菜单是否可见
 const isMenuVisible = ref(false);
 
+// 输出遮罩层
+const outputTrans = ref<HTMLDivElement | null>(null);
+
 //代码编辑
 const codeStore = useCodeStore();
 
@@ -59,6 +62,7 @@ watch(code, (newCode) => {
     console.log('Saving to localStorage', myData.value?.id!, newCode);
   }
 });
+
 //设置背景颜色
 const themeStore = useThemeStore();
 const backgroundColor = computed(() => {
@@ -72,6 +76,15 @@ const characters = computed(() => {
 //复选框逻辑
 const isSlideAndCompare = ref(false);
 const isDiff = ref(false);
+
+// 改变遮罩层 cursor 样式
+watch(isSlideAndCompare, (newVal) => {
+  if (newVal) {
+    outputTrans.value!.style.cursor = 'col-resize';
+  } else {
+    outputTrans.value!.style.cursor = 'default';
+  }
+});
 
 const onMouseOver = () => {
   if (isSlideAndCompare.value) {
@@ -268,6 +281,7 @@ onMounted(() => {
           <img class="target-image" alt="" :src="myData?.image" />
           <div
             class="trans"
+            ref="outputTrans"
             @mouseover="onMouseOver"
             @mouseleave="hover = false"
             v-show="!isDiff"
@@ -507,7 +521,6 @@ onMounted(() => {
   width: 100vw;
   padding: 60px 1rem 0 1rem;
   display: flex;
-  display: relative;
   flex-direction: row;
 
   .header {
@@ -616,20 +629,20 @@ onMounted(() => {
     .output-body {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 3rem;
       padding: 1.3rem;
       align-items: center;
       overflow-y: auto;
       .output-content {
-        min-height: 15rem;
-        width: 400px;
+        min-width: 400px;
+        min-height: 300px;
         background-color: $dark-text;
-        aspect-ratio: 4/3;
+        aspect-ratio: 4 / 3;
         position: relative;
-        cursor: col-resize;
         touch-action: none;
+        overflow: visible;
         .trans {
-          cursor: col-resize;
+          cursor: default;
           position: absolute;
           top: 0;
           left: 0;
@@ -639,10 +652,12 @@ onMounted(() => {
           z-index: 10;
         }
         .target-image {
-          width: 100%;
           position: absolute;
           top: 0;
           left: 0;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 4 / 3;
         }
         .preview-div {
           width: 100%;
@@ -658,7 +673,6 @@ onMounted(() => {
           }
         }
         .preview-iframe {
-          cursor: col-resize;
           width: 100%;
           height: 100%;
           border: none;
@@ -789,9 +803,9 @@ onMounted(() => {
   }
 
   .container-target {
-    flex: 2;
     min-width: 23%;
     max-width: 30%;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 0px;

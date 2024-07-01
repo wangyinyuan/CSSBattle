@@ -3,6 +3,7 @@ node_modules
 log
 *.log
 
+# 配置文件夹
 config
 
 .vscode/*
