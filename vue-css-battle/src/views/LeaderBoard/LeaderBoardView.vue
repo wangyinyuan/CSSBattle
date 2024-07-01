@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { userGameInfo } from '@/data/user'
-import { useThemeStore } from '@/stores/themeStore'
-import type { UserGameInfo } from '@/types/userProfile'
-import { ArrowDown } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { userGameInfo } from '@/data/user';
+import { useThemeStore } from '@/stores/themeStore';
+import type { UserGameInfo } from '@/types/userProfile';
+import { ArrowDown } from '@element-plus/icons-vue';
+import { ref } from 'vue';
 
 //获取主题色
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 //选中的栏目
-const selectedItem = ref(0)
+const selectedItem = ref(0);
 
 //获取排名数据
-const userGameList = ref<UserGameInfo[]>([])
-userGameList.value = userGameInfo
+const userGameList = ref<UserGameInfo[]>([]);
+userGameList.value = userGameInfo;
 </script>
 
 <template>
@@ -267,6 +267,7 @@ userGameList.value = userGameInfo
         justify-content: space-around;
         gap: 6rem;
         width: 80%;
+        min-width: min-content;
         margin: 0 auto;
         flex-direction: row;
         border: 0;

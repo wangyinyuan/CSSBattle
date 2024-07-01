@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { targetListDailyPanel, targetListDaily } from '@/data/targets'
-import { useThemeStore } from '@/stores/themeStore'
-import DailyTarget from '@/components/DailyTarget.vue'
-import { ref } from 'vue'
+import DailyTarget from '@/components/DailyTarget.vue';
+import { targetListDaily, targetListDailyPanel } from '@/data/targets';
+import { useThemeStore } from '@/stores/themeStore';
+import { ref } from 'vue';
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 //展示切换
-const selectedItem = ref(0)
+const selectedItem = ref(0);
 </script>
 
 <template>
@@ -48,7 +48,8 @@ const selectedItem = ref(0)
       <div class="previous-hstack">
         <div class="stack-info">
           <p class="title">
-            Previous targets<img src="https://cssbattle.dev/images/pro-badge.svg" alt="" />
+            Previous targets
+            <img src="https://cssbattle.dev/images/pro-badge.svg" alt="" />
           </p>
           <p>
             Want more? Play the previously released targets. You can also view the top solutions of
@@ -115,8 +116,10 @@ const selectedItem = ref(0)
     .daily-panel {
       width: 100%;
       height: auto;
+      min-width: max-content;
       min-height: 415px;
       position: relative;
+      align-self: center;
       @include daily-target-panel-bg;
       box-shadow:
         0 0 30px rgba(255, 223, 0, 0),

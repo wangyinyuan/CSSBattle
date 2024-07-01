@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import DailyTarget from '@/components/DailyTarget.vue'
-import { targetListHomePanel } from '@/data/targets'
-import { useThemeStore } from '@/stores/themeStore'
-import { useUserStore } from '@/stores/userStore'
-import { nextTick, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import ScrollBar from './components/ScrollBar.vue'
+import DailyTarget from '@/components/DailyTarget.vue';
+import { targetListHomePanel } from '@/data/targets';
+import { useThemeStore } from '@/stores/themeStore';
+import { useUserStore } from '@/stores/userStore';
+import { nextTick, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import ScrollBar from './components/ScrollBar.vue';
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 //获取路由对象
-const router = useRouter()
+const router = useRouter();
 
 //居中Today Target在屏幕中间
-const scrollView = ref<HTMLElement | null>(null)
+const scrollView = ref<HTMLElement | null>(null);
 
 const centerTodayView = () => {
   nextTick(() => {
-    const items = scrollView.value!.children
-    const todayView = items[items.length - 2] as HTMLElement
+    const items = scrollView.value!.children;
+    const todayView = items[items.length - 2] as HTMLElement;
     if (todayView) {
       const scrollLeftPosition =
-        todayView.offsetLeft - scrollView.value!.offsetWidth / 2 + todayView.offsetWidth / 2
-      scrollView.value!.scrollLeft = scrollLeftPosition
+        todayView.offsetLeft - scrollView.value!.offsetWidth / 2 + todayView.offsetWidth / 2;
+      scrollView.value!.scrollLeft = scrollLeftPosition;
     }
-  })
-}
+  });
+};
 //获取用户信息
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 onMounted(() => {
-  centerTodayView()
-})
+  centerTodayView();
+});
 </script>
 
 <template>
@@ -153,7 +153,7 @@ onMounted(() => {
           background-color 0.2s ease-in-out;
         font-weight: 600;
         letter-spacing: 0.2px;
-        text-align: left;
+        text-align: center;
         &:hover {
           transform: translate(0, -3px);
           background-color: $common-button-bg-hover;
