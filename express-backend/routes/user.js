@@ -18,12 +18,7 @@ router.post("/login", async (req, res) => {
       user = new User({
         username,
         password: hashedPassword,
-        avatar:
-          "https://i.pravatar.cc/150?img=2",
-        bio: "这个人很懒，什么都没有留下",
         isPlus: false,
-        totalScore: 0,
-        totalTarget: 0,
       });
 
       await user.save();
