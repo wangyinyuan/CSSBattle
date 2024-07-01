@@ -507,7 +507,6 @@ onMounted(() => {
   width: 100vw;
   padding: 60px 1rem 0 1rem;
   display: flex;
-  display: relative;
   flex-direction: row;
 
   .header {
@@ -621,13 +620,14 @@ onMounted(() => {
       align-items: center;
       overflow-y: auto;
       .output-content {
-        min-height: 15rem;
-        width: 400px;
+        min-width: 400px;
+        min-height: 300px;
         background-color: $dark-text;
-        aspect-ratio: 4/3;
+        aspect-ratio: 4 / 3;
         position: relative;
         cursor: col-resize;
         touch-action: none;
+        overflow: hidden;
         .trans {
           cursor: col-resize;
           position: absolute;
@@ -639,10 +639,12 @@ onMounted(() => {
           z-index: 10;
         }
         .target-image {
-          width: 100%;
           position: absolute;
           top: 0;
           left: 0;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 4 / 3;
         }
         .preview-div {
           width: 100%;
@@ -789,9 +791,9 @@ onMounted(() => {
   }
 
   .container-target {
-    flex: 2;
     min-width: 23%;
     max-width: 30%;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 0px;
