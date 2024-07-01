@@ -629,7 +629,7 @@ onMounted(() => {
     .output-body {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 3rem;
       padding: 1.3rem;
       align-items: center;
       overflow-y: auto;
@@ -640,7 +640,7 @@ onMounted(() => {
         aspect-ratio: 4 / 3;
         position: relative;
         touch-action: none;
-        overflow: hidden;
+        overflow: visible;
         .trans {
           cursor: default;
           position: absolute;
