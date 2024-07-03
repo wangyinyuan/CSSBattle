@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const battleSchema = new mongoose.Schema({
-    maxScore: Number,
-    userScores: [{
-        user: {type: Schema.Types.ObjectId, ref:'User'},
-        highScore: Number,
-        lastScore: Number,
-        code: String
-    }]
+    image: { type: String, required: true},
+    imageColors: [String],
+    date: { type: String, required: true },
+    averageScore: { type: Number, default: 0 },
+    averageAccuracy: { type: Number, default: 0 },
+    highestScore: { type: Number, default: 0 },
 })
 
 const Battle = mongoose.model('Battle', battleSchema);

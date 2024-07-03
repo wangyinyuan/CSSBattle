@@ -6,6 +6,8 @@ log
 # 配置文件夹
 config
 
+data
+
 .vscode/*
 !.vscode/extensions.json
 .idea

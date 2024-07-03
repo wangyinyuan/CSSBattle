@@ -4,6 +4,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const apiConfig = require("../config/api");
+const { dbLogger } = require("../logger");
 
 const expiresIn = '30d';
 //Log in or sign up
@@ -18,16 +19,11 @@ router.post("/login", async (req, res) => {
       user = new User({
         username,
         password: hashedPassword,
-        avatar:
-          "https://i.pravatar.cc/150?img=2",
-        bio: "这个人很懒，什么都没有留下",
         isPlus: false,
-        totalScore: 0,
-        totalTarget: 0,
       });
 
       await user.save();
-      console.log("新用户已创建：", user)
+      dbLogger.debug("New user created:", user.username)
     }
     // 如果用户存在则检查密码
     else {
@@ -56,6 +52,7 @@ router.post("/login", async (req, res) => {
         isPlus: user.isPlus,
       });
   } catch (error) {
+    dbLogger.error("An error occurred:", error);
     console.error("An error occurred:", error);
     res.status(500).send("Internal Server Error");
   }
