@@ -7,6 +7,7 @@ import { ref } from 'vue';
 const themeStore = useThemeStore();
 //展示切换
 const selectedItem = ref(0);
+console.log('targetListDailyPanel', targetListDailyPanel);
 </script>
 
 <template>
@@ -39,7 +40,7 @@ const selectedItem = ref(0);
         </div>
       </div>
       <div class="daily-panel">
-        <div class="targets" ref="scrollView">
+        <div class="targets">
           <DailyTarget v-bind="item" v-for="item in targetListDailyPanel" :key="item.id" />
         </div>
       </div>

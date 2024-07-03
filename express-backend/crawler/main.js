@@ -26,7 +26,7 @@ function writeBattlesToMongo() {
   let battles = getBattlesAsJson();
   battles = battles.map((battle) => ({
     image: battle.fields.image.stringValue,
-    date: battle.fields.name.stringValue.trim(),
+    date: battle.fields.name.stringValue.trim().split('/').reverse().join('/'),
     imageColors: battle.fields.colors.arrayValue.values.map((color => color.stringValue))
   }));
   fillBattleData(battles);
