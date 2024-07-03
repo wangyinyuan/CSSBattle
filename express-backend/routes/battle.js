@@ -12,13 +12,12 @@ router.get('/', async (req, res, next) => {
   // 把 date 拆成 month 和 day 两个字段
   battles = battles.map(battle => {
     const date = new Date(battle.date);
-    console.log('battle:', battle);
     return {
       id: battle._id,
       averageAccuracy: battle.averageAccuracy,
       averageScore: battle.averageScore,
       month: monthNames[date.getMonth()],
-      day: date.getDate(),
+      day: date.getDate().toString().padStart(2, '0'),
       image: battle.image,
       imageColors: battle.imageColors,
     }

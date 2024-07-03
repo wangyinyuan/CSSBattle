@@ -7,7 +7,6 @@ import { ref } from 'vue';
 const themeStore = useThemeStore();
 //展示切换
 const selectedItem = ref(0);
-console.log('targetListDailyPanel', targetListDailyPanel);
 </script>
 
 <template>
