@@ -2,14 +2,14 @@
 import Footer from '@/components/FooterView.vue';
 import { useCodeStore } from '@/stores/codeStore';
 import { useUserStore } from '@/stores/userStore';
-import { TargetProps } from '@/types/target';
+import { BattleUploadFormData, TargetProps } from '@/types/target';
 import MenuBar from '@/views/Layout/components/MenuBar.vue';
 import TopBar from '@/views/Layout/components/TopBar.vue';
 import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 //导入codemirror的包
-
-import router from '@/router';
+import { uploadBattleReq } from '@/apis/battle';
+import ParticleEffect from '@/components/ParticleEffect.vue';
 import { useThemeStore } from '@/stores/themeStore';
 import { UserProfile } from '@/types/userProfile';
 import { autocompletion } from '@codemirror/autocomplete';
@@ -17,6 +17,7 @@ import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { ElMessage, ElNotification } from 'element-plus';
+import html2canvas from 'html2canvas';
 import { Codemirror } from 'vue-codemirror';
 
 //接受路由参数
@@ -32,9 +33,11 @@ const getQueryData = () => {
 //获取当前用户信息
 const userStore = useUserStore();
 const user = ref<UserProfile>(userStore.userInfo);
+const latestScore = ref(20);
 
 //控制菜单是否可见
 const isMenuVisible = ref(false);
+const isCelebrating = ref(false);
 
 // 输出遮罩层
 const outputTrans = ref<HTMLDivElement | null>(null);
@@ -58,8 +61,6 @@ watch(code, (newCode) => {
       return;
     }
     codeStore.saveCode(myData.value?.id, newCode);
-    console.log('success!!!');
-    console.log('Saving to localStorage', myData.value?.id!, newCode);
   }
 });
 
@@ -112,7 +113,7 @@ const onMouseMove = (e: MouseEvent) => {
     imageWidth.value = e.clientX - left;
   }
 };
-const onMouseLeave = (e: MouseEvent) => {
+const onMouseLeave = (_e: MouseEvent) => {
   imageWidth.value = 400;
 };
 
@@ -138,8 +139,35 @@ const copyToClipboard = async (color: string) => {
   }
 };
 
+async function getCodeImage() {
+  const container = document.querySelector('#invisible-container') as HTMLDivElement;
+  container.innerHTML = code.value;
+
+  html2canvas(container, {
+    width: 400,
+    height: 300,
+    scale: 1
+  })
+    .then(async (canvas) => {
+      canvas.toBlob(async (blob) => {
+        const formData = new FormData();
+        formData.append('image', blob as Blob, 'code.png');
+        formData.append('id', myData.value?.id!);
+        formData.append('code', code.value);
+
+        const res = await uploadBattleReq(formData as BattleUploadFormData);
+        latestScore.value = res.data?.score || 20;
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
+  container.innerHTML = '';
+}
+
 // 提交代码
-const onSubmit = () => {
+const onSubmit = async () => {
   if (!userStore.userInfo.token) {
     ElNotification({
       title: 'Submit Failed',
@@ -160,10 +188,13 @@ const onSubmit = () => {
       message: 'Submit successfully',
       type: 'success'
     });
-    setTimeout(() => {
-      router.push({ path: '/' });
-    }, 1000);
   }
+  await getCodeImage();
+  isCelebrating.value = true;
+
+  setTimeout(() => {
+    isCelebrating.value = false;
+  }, 5000);
 };
 //代码检查
 function containJsCode(code: string) {
@@ -186,12 +217,13 @@ onBeforeMount(() => {
   getQueryData();
 });
 onMounted(() => {
-  console.log('Loading from localStorage', myData.value?.id!);
   code.value = codeStore.loadCode(myData.value?.id!);
 });
 </script>
 
 <template>
+  <!-- 粒子效果 -->
+  <ParticleEffect v-if="isCelebrating" />
   <!--吸顶栏-->
   <TopBar v-bind="myData" @openMenu="isMenuVisible = true" @closeMenu="isMenuVisible = false" />
   <!--菜单栏-->
@@ -329,7 +361,7 @@ onMounted(() => {
                   ></path>
                 </svg>
               </div>
-              <div class="score">120</div>
+              <div class="score">{{ latestScore.toFixed(1) }}</div>
               <div>Last score</div>
             </div>
             <div class="score-container">
@@ -471,12 +503,14 @@ onMounted(() => {
       </div>
     </div>
     <div class="container-target">
+      <div class="temp"></div>
       <div class="target-header header">
         <span>Recreate this target</span>
         <span class="target-size">400px x 300px</span>
       </div>
       <div class="target-body">
         <div class="target-display">
+          <article id="invisible-container"></article>
           <img :src="myData?.image" alt="" />
         </div>
         <div class="color-palette">
@@ -513,6 +547,7 @@ onMounted(() => {
   font-family: 'IBM Plex Mono';
   src: url('../../assets/font/IBMPlexMono-SemiBold.ttf');
 }
+
 .play-body-container {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 1.3rem;
@@ -819,8 +854,16 @@ onMounted(() => {
       padding: 1.25rem;
       .target-display {
         width: 100%;
+        position: relative;
         img {
           width: auto;
+        }
+
+        #invisible-container {
+          position: absolute;
+          z-index: -10;
+          width: 400px;
+          height: 300px;
         }
       }
       .color-palette {

@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
     }
     // 如果用户存在则检查密码
     else {
-      console.log("用户已存在：", user)
+      dbLogger.info("用户已存在：", user);
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(401).json({
@@ -53,7 +53,6 @@ router.post("/login", async (req, res) => {
       });
   } catch (error) {
     dbLogger.error("An error occurred:", error);
-    console.error("An error occurred:", error);
     res.status(500).send("Internal Server Error");
   }
 });

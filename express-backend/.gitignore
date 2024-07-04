@@ -5,8 +5,10 @@ log
 
 # 配置文件夹
 config
-
+# 爬取的数据
 data
+# 上传的图片文件
+uploads
 
 .vscode/*
 !.vscode/extensions.json

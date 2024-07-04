@@ -35,9 +35,29 @@ async function fillBattleData(battles) {
   }
 }
 
-async function getSimilarity(id) {
-  const battle = await Battle.findById(id);
-  // TODO: Perform similarity calculation
+async function getBattleById(id) {
+  try {
+    const battle = await Battle.findById(id);
+    return battle;
+  } catch (e) {
+    dbLogger.error("Error getting battle by ID", e);
+    throw e;
+  }
+}
+
+function getScores(similarity, code) {
+  const similarityScore = similarity * 100;
+  const codeLength = code.length;
+  const maxLength = 1000;
+  let codeScore;
+
+  if (codeLength < 1000) {
+    codeScore = 20 * (maxLength - codeLength) / maxLength;
+  } else {
+    codeScore = 0;
+  }
+
+  return similarityScore + codeScore;
 }
 
 /**
@@ -74,6 +94,7 @@ async function getAllBattlesSorted(isAscending = true) {
 
 module.exports = {
   fillBattleData,
-  getSimilarity,
   getAllBattlesSorted,
+  getBattleById,
+  getScores,
 };

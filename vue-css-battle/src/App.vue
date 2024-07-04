@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { setAllTargets } from '@/data/targets';
-import { ref, onBeforeMount, defineAsyncComponent } from 'vue';
-import { RouterView } from 'vue-router';
+import { defineAsyncComponent, onBeforeMount, ref } from 'vue';
 
 const isLoading = ref(true);
 

@@ -36,3 +36,24 @@ export interface TargetResponse {
   data: TargetData[];
   message: string;
 }
+
+export interface BattleUploadResponse {
+  code: number;
+  message: string;
+  data: {
+    similarity: number;
+    score: number;
+  } | null;
+}
+
+interface BattleFormDataFields {
+  image: File;
+  id: string;
+  code: string;
+}
+
+export interface BattleUploadFormData extends FormData {
+  append<K extends keyof BattleFormDataFields>(key: K, value: BattleFormDataFields[K]): void;
+  get<K extends keyof BattleFormDataFields>(key: K): BattleFormDataFields[K] | null;
+  has<K extends keyof BattleFormDataFields>(key: K): boolean;
+}
