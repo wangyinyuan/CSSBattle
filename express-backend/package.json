@@ -14,15 +14,18 @@
   "author": "Xin Wang",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dayjs": "^1.11.11",
     "express": "^4.18.2",
+    "form-data": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
     "log4js": "^6.9.1",
     "md5": "^2.3.0",
     "mongoose": "^7.5.3",
+    "multer": "^1.4.5-lts.1",
     "path-to-regexp": "^7.0.0",
     "validator": "^13.12.0"
   },

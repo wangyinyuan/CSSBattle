@@ -35,9 +35,14 @@ async function fillBattleData(battles) {
   }
 }
 
-async function getSimilarity(id) {
-  const battle = await Battle.findById(id);
-  // TODO: Perform similarity calculation
+async function getBattleById(id) {
+  try {
+    const battle = await Battle.findById(id);
+    return battle;
+  } catch (e) {
+    dbLogger.error("Error getting battle by ID", e);
+    throw e;
+  }
 }
 
 /**
@@ -74,6 +79,6 @@ async function getAllBattlesSorted(isAscending = true) {
 
 module.exports = {
   fillBattleData,
-  getSimilarity,
   getAllBattlesSorted,
+  getBattleById,
 };

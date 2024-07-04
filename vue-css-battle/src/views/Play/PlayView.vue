@@ -2,13 +2,13 @@
 import Footer from '@/components/FooterView.vue';
 import { useCodeStore } from '@/stores/codeStore';
 import { useUserStore } from '@/stores/userStore';
-import { TargetProps } from '@/types/target';
+import { BattleUploadFormData, TargetProps } from '@/types/target';
 import MenuBar from '@/views/Layout/components/MenuBar.vue';
 import TopBar from '@/views/Layout/components/TopBar.vue';
 import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 //导入codemirror的包
-
+import { uploadBattleReq } from '@/apis/battle';
 import router from '@/router';
 import { useThemeStore } from '@/stores/themeStore';
 import { UserProfile } from '@/types/userProfile';
@@ -17,6 +17,7 @@ import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { ElMessage, ElNotification } from 'element-plus';
+import html2canvas from 'html2canvas';
 import { Codemirror } from 'vue-codemirror';
 
 //接受路由参数
@@ -112,7 +113,7 @@ const onMouseMove = (e: MouseEvent) => {
     imageWidth.value = e.clientX - left;
   }
 };
-const onMouseLeave = (e: MouseEvent) => {
+const onMouseLeave = (_e: MouseEvent) => {
   imageWidth.value = 400;
 };
 
@@ -137,6 +138,28 @@ const copyToClipboard = async (color: string) => {
     });
   }
 };
+
+function getCodeImage() {
+  const container = document.querySelector('#invisible-container') as HTMLDivElement;
+  container.innerHTML = code.value;
+
+  html2canvas(container, {
+    width: 400,
+    height: 300,
+    scale: 1
+  }).then(async (canvas) => {
+    canvas.toBlob((blob) => {
+      const formData = new FormData();
+      formData.append('image', blob as Blob, 'code.png');
+      formData.append('id', myData.value?.id!);
+      formData.append('code', code.value);
+
+      uploadBattleReq(formData as BattleUploadFormData);
+    });
+  });
+
+  container.innerHTML = '';
+}
 
 // 提交代码
 const onSubmit = () => {
@@ -164,6 +187,8 @@ const onSubmit = () => {
       router.push({ path: '/' });
     }, 1000);
   }
+
+  getCodeImage();
 };
 //代码检查
 function containJsCode(code: string) {
@@ -471,12 +496,14 @@ onMounted(() => {
       </div>
     </div>
     <div class="container-target">
+      <div class="temp"></div>
       <div class="target-header header">
         <span>Recreate this target</span>
         <span class="target-size">400px x 300px</span>
       </div>
       <div class="target-body">
         <div class="target-display">
+          <article id="invisible-container"></article>
           <img :src="myData?.image" alt="" />
         </div>
         <div class="color-palette">
@@ -513,6 +540,7 @@ onMounted(() => {
   font-family: 'IBM Plex Mono';
   src: url('../../assets/font/IBMPlexMono-SemiBold.ttf');
 }
+
 .play-body-container {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 1.3rem;
@@ -819,8 +847,16 @@ onMounted(() => {
       padding: 1.25rem;
       .target-display {
         width: 100%;
+        position: relative;
         img {
           width: auto;
+        }
+
+        #invisible-container {
+          position: absolute;
+          z-index: -10;
+          width: 400px;
+          height: 300px;
         }
       }
       .color-palette {

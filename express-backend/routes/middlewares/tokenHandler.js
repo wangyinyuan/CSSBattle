@@ -9,10 +9,8 @@ function tokenHandler(req, res, next) {
 
   try {
     const token = req.headers.authorization.split(' ')[1];
-    console.log('token in handler:', token)
     const decoded = jwt.verify(token, apiConfig.jwtKey);
     req.user = decoded;
-    console.log('user:', decoded);
     next();
   } catch (e) {
     const message = e instanceof jwt.JsonWebTokenError ? 'Invalid token' : 'Unauthorized';
