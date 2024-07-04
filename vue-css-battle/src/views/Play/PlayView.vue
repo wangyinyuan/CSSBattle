@@ -9,7 +9,7 @@ import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 //导入codemirror的包
 import { uploadBattleReq } from '@/apis/battle';
-import router from '@/router';
+import ParticleEffect from '@/components/ParticleEffect.vue';
 import { useThemeStore } from '@/stores/themeStore';
 import { UserProfile } from '@/types/userProfile';
 import { autocompletion } from '@codemirror/autocomplete';
@@ -33,9 +33,11 @@ const getQueryData = () => {
 //获取当前用户信息
 const userStore = useUserStore();
 const user = ref<UserProfile>(userStore.userInfo);
+const latestScore = ref(20);
 
 //控制菜单是否可见
 const isMenuVisible = ref(false);
+const isCelebrating = ref(false);
 
 // 输出遮罩层
 const outputTrans = ref<HTMLDivElement | null>(null);
@@ -59,8 +61,6 @@ watch(code, (newCode) => {
       return;
     }
     codeStore.saveCode(myData.value?.id, newCode);
-    console.log('success!!!');
-    console.log('Saving to localStorage', myData.value?.id!, newCode);
   }
 });
 
@@ -139,7 +139,7 @@ const copyToClipboard = async (color: string) => {
   }
 };
 
-function getCodeImage() {
+async function getCodeImage() {
   const container = document.querySelector('#invisible-container') as HTMLDivElement;
   container.innerHTML = code.value;
 
@@ -147,22 +147,27 @@ function getCodeImage() {
     width: 400,
     height: 300,
     scale: 1
-  }).then(async (canvas) => {
-    canvas.toBlob((blob) => {
-      const formData = new FormData();
-      formData.append('image', blob as Blob, 'code.png');
-      formData.append('id', myData.value?.id!);
-      formData.append('code', code.value);
+  })
+    .then(async (canvas) => {
+      canvas.toBlob(async (blob) => {
+        const formData = new FormData();
+        formData.append('image', blob as Blob, 'code.png');
+        formData.append('id', myData.value?.id!);
+        formData.append('code', code.value);
 
-      uploadBattleReq(formData as BattleUploadFormData);
+        const res = await uploadBattleReq(formData as BattleUploadFormData);
+        latestScore.value = res.data?.score || 20;
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
-  });
 
   container.innerHTML = '';
 }
 
 // 提交代码
-const onSubmit = () => {
+const onSubmit = async () => {
   if (!userStore.userInfo.token) {
     ElNotification({
       title: 'Submit Failed',
@@ -183,12 +188,13 @@ const onSubmit = () => {
       message: 'Submit successfully',
       type: 'success'
     });
-    setTimeout(() => {
-      router.push({ path: '/' });
-    }, 1000);
   }
+  await getCodeImage();
+  isCelebrating.value = true;
 
-  getCodeImage();
+  setTimeout(() => {
+    isCelebrating.value = false;
+  }, 5000);
 };
 //代码检查
 function containJsCode(code: string) {
@@ -211,12 +217,13 @@ onBeforeMount(() => {
   getQueryData();
 });
 onMounted(() => {
-  console.log('Loading from localStorage', myData.value?.id!);
   code.value = codeStore.loadCode(myData.value?.id!);
 });
 </script>
 
 <template>
+  <!-- 粒子效果 -->
+  <ParticleEffect v-if="isCelebrating" />
   <!--吸顶栏-->
   <TopBar v-bind="myData" @openMenu="isMenuVisible = true" @closeMenu="isMenuVisible = false" />
   <!--菜单栏-->
@@ -354,7 +361,7 @@ onMounted(() => {
                   ></path>
                 </svg>
               </div>
-              <div class="score">120</div>
+              <div class="score">{{ latestScore.toFixed(1) }}</div>
               <div>Last score</div>
             </div>
             <div class="score-container">
