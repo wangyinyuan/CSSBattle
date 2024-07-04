@@ -1,13 +1,14 @@
 const express = require("express");
 const { tokenHandler } = require("./middlewares/tokenHandler");
 const { errorHandler } = require("./middlewares/errorHandler");
-const { getAllBattlesSorted, getBattleById } = require("../services/battle");
+const { getAllBattlesSorted, getBattleById, getScores } = require("../services/battle");
 const multer = require("multer");
 const fs = require("fs");
 const { getUserByName } = require("../services/user");
 const axios = require("axios");
 const { logger } = require("../logger");
 const FormData = require("form-data");
+const { updateUserBattle } = require("../services/user");
 
 const upload = multer({ dest: "../uploads/" });
 
@@ -60,10 +61,6 @@ router.post(
   tokenHandler,
   upload.single("image"),
   async (req, res, next) => {
-    console.log("req.file:  ", req.file);
-    console.log("req.body: ", req.body);
-    console.log("req.user.username: ", req.user.username);
-
     if (!req.file) {
       res
         .status(400)
@@ -93,12 +90,24 @@ router.post(
       }
     );
 
+    const similarity = response.data.similarity;
+    const code = req.body.code;
+
+    const score = getScores(similarity, code);
+
+    // 更新用户的战斗数据
+    await updateUserBattle(userName, battleId, code, similarity, score);
+
     fs.unlinkSync(filePath);
     res.status(200).send({
       code: 200,
       message: "Success",
-      data: null,
+      data: {
+        similarity,
+        score,
+      },
     });
+    next();
   },
   errorHandler
 );

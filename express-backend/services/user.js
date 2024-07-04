@@ -12,6 +12,40 @@ async function getUserByName(name) {
   }
 }
 
+async function updateUserBattle(userName, battleId, code, similarity, score) {
+  try {
+    const user = await getUserByName(userName);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const battleIndex = user.battles.findIndex(b => b._id.toString() === battleId);
+    if (battleIndex !== -1) {
+      user.battles[battleIndex].code = code;
+      user.battles[battleIndex].latestScore = score;
+      user.battles[battleIndex].accuracy = similarity;
+      if (score > user.battles[battleIndex].highestScore) {
+        user.battles[battleIndex].highestScore = score;
+      }
+    } else {
+      user.battles.push({
+        battle: battleId,
+        code,
+        latestScore: score,
+        highestScore: score,
+        accuracy: similarity,
+      });
+    }
+
+    await user.save();
+
+  } catch(e) {
+    dbLogger.error("Error updating user battle", e);
+    throw e;
+  }
+}
+
 module.exports = {
   getUserByName,
+  updateUserBattle,
 }

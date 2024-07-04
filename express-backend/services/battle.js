@@ -45,6 +45,21 @@ async function getBattleById(id) {
   }
 }
 
+function getScores(similarity, code) {
+  const similarityScore = similarity * 100;
+  const codeLength = code.length;
+  const maxLength = 1000;
+  let codeScore;
+
+  if (codeLength < 1000) {
+    codeScore = 20 * (maxLength - codeLength) / maxLength;
+  } else {
+    codeScore = 0;
+  }
+
+  return similarityScore + codeScore;
+}
+
 /**
  * Retrieves all battles from the database.
  * @returns {Promise<Array>} A promise that resolves to an array of battles.
@@ -81,4 +96,5 @@ module.exports = {
   fillBattleData,
   getAllBattlesSorted,
   getBattleById,
+  getScores,
 };
